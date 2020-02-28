@@ -14,9 +14,8 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private float distance = 10.0f;
     private float currentX = 0.0f;
-    private float currentY = 0.0f;
-    private float sensitivityX = 8.0f;
-    private float sensitivityY = 8.0f;
+    private float currentY = 25f;
+    private float value = 0.0f;
 
     private void Start()
     {
@@ -26,14 +25,35 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void Update()
     {
-        currentX += Input.GetAxis("Mouse X");
-        currentY += Input.GetAxis("Mouse Y");
+        //if R is pressed rotate camera 90 degrees clockwise
+        //T anti-clockwise
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            value += 90;
+            Debug.Log("R was pressed");
+        }
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            value -= 90;
+            Debug.Log("T was pressed");
+        }
 
-        currentY = Mathf.Clamp(currentY,Y_ANGLE_MIN,Y_ANGLE_MAX);
+        //Camera glides when rotating instead of jumping to position
+        if(currentX < value)
+        {
+            currentX += 5;
+        }
+        else if(currentX > value)
+        {
+            currentX -= 5;
+        }
+
+        //currentY = Mathf.Clamp(currentY,Y_ANGLE_MIN,Y_ANGLE_MAX);
     }
 
     private void LateUpdate() 
     {
+
         Vector3 dir = new Vector3(0,0,-distance);
         Quaternion rotation = Quaternion.Euler(currentY,currentX,0);
         camTransform.position = lookAt.position + rotation * dir;

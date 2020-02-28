@@ -13,17 +13,30 @@ public class FloorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Keys to rotate floor - similar to wasd but using ijkl instead
         if(Input.GetKey(KeyCode.I))
         {
-            transform.Rotate(0,0.5f,0);
+            transform.Rotate(0.5f,0,0);
         }
-        if(Input.GetKey(KeyCode.L))
+        if(Input.GetKey(KeyCode.K))
         {
-            transform.Rotate(0,0,0.5f);
+            transform.Rotate(-0.5f,0,0);
         }
         if(Input.GetKey(KeyCode.J))
         {
-            transform.Rotate(0.5f,0,0);
+            transform.Rotate(0,0,0.5f);
+        }
+        if(Input.GetKey(KeyCode.L))
+        {
+            transform.Rotate(0,0,-0.5f);
+        }
+        if(Input.GetKey(KeyCode.U))
+        {
+            transform.Rotate(0,0.5f,0);
+        }
+        if(Input.GetKey(KeyCode.O))
+        {
+            transform.Rotate(0,-0.5f,0);
         }
     }
 }
