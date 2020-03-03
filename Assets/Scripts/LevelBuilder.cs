@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 
-// based on this tutorial https://youtu.be/B_Xp9pt8nRY
 public class LevelBuilder : MonoBehaviour
 {
-    public Texture2D map;
-    public BlockColour[] blockMappings;
+    public string levelBlocksPath;
+    public BlockCharacter[] blockMappings;
 
     void Start()
     {
@@ -13,31 +13,48 @@ public class LevelBuilder : MonoBehaviour
 
     void BuildLevel()
     {
-        for (int x = 0; x < map.width; x++)
+        StreamReader reader = new StreamReader("Assets/Levels/" + levelBlocksPath);
+        // read width/length/height
+        string[] dims = reader.ReadLine().Split();
+        int width = int.Parse(dims[0]);
+        int length = int.Parse(dims[1]);
+        int height = int.Parse(dims[2]);
+        char[] line;
+
+        for (int h = 0; h < width; h++)
         {
-            for (int y = 0; y < map.height; y++)
+            for (int l = 0; l < length; l++)
             {
-                GenerateBlock(x, y);
+                line = reader.ReadLine().ToCharArray();
+                for (int w = 0; w < line.Length; w++)
+                {
+                    char c = line[w];
+                    GenerateBlock(c, w, l, h);
+                }
             }
+
+            // skip blank line after each layer
+            reader.ReadLine();
         }
+
+        Debug.Log(reader.ReadToEnd());
+        reader.Close();
     }
 
-    void GenerateBlock(int x, int y)
+    void GenerateBlock(char c, int x, int y, int z)
     {
-        Color pixelColor = map.GetPixel(x, y);
-
-        if (pixelColor.a == 0)
+        if (c == ' ')
         {
-            // ignore transparent pixels
+            // ignore empty space block
             return;
         }
 
-        foreach (BlockColour blockMapping in blockMappings)
+        foreach (BlockCharacter blockMapping in blockMappings)
         {
-            if (blockMapping.color.Equals(pixelColor))
+            if (blockMapping.character == c)
             {
                 Vector2 position = new Vector2(x, y);
-                Instantiate(blockMapping.prefab, position, Quaternion.identity, transform);
+                Instantiate(blockMapping.block, position, Quaternion.identity, transform);
             }
         }
     }
