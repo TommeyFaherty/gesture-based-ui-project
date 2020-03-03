@@ -21,7 +21,7 @@ public class LevelBuilder : MonoBehaviour
         int height = int.Parse(dims[2]);
         char[] line;
 
-        for (int h = 0; h < width; h++)
+        for (int h = 0; h < height; h++)
         {
             for (int l = 0; l < length; l++)
             {
@@ -29,7 +29,7 @@ public class LevelBuilder : MonoBehaviour
                 for (int w = 0; w < line.Length; w++)
                 {
                     char c = line[w];
-                    GenerateBlock(c, w, l, h);
+                    GenerateBlock(c, w * 2, h * 2, -l * 2);
                 }
             }
 
@@ -49,11 +49,13 @@ public class LevelBuilder : MonoBehaviour
             return;
         }
 
+        Debug.Log("z: " + z);
+
         foreach (BlockCharacter blockMapping in blockMappings)
         {
             if (blockMapping.character == c)
             {
-                Vector2 position = new Vector2(x, y);
+                Vector3 position = new Vector3(x, y, z);
                 Instantiate(blockMapping.block, position, Quaternion.identity, transform);
             }
         }
