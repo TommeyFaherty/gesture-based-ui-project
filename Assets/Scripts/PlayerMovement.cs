@@ -9,41 +9,41 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
-    CharacterController characterController;
-
-    public float speed = 6.0f;
-    public float jumpSpeed = 8.0f;
-    public float gravity = 20.0f;
-
-    private Vector3 moveDirection = Vector3.zero;
+private float speed  = 5f;
+private float cooldown = 0f;
+private float distToGround;
+Rigidbody rb;
 
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
+        distToGround = GetComponent<Collider>().bounds.extents.y;
+    }
+
+    bool IsGrounded() {
+        return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
     }
 
     void Update()
     {
-        if (characterController.isGrounded)
-        {
-            // We are grounded, so recalculate
-            // move direction directly from axes
-
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-            moveDirection *= speed;
-
-            if (Input.GetButton("Jump"))
-            {
-                moveDirection.y = jumpSpeed;
-            }
+        //Jump with ball if its on the ground
+        if(Input.GetKeyDown(KeyCode.Space) && IsGrounded()) {
+            Vector3 jumpVelocity = new Vector3(0f,speed,0f);
+            
+            //Ensures ball maintains speed
+            rb.velocity = rb.velocity + jumpVelocity; 
         }
 
-        // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
-        // when the moveDirection is multiplied by deltaTime). This is because gravity should be applied
-        // as an acceleration (ms^-2)
-        moveDirection.y -= gravity * Time.deltaTime;
+        //Dash with ball
+        //Dash should have significant cooldown (6s)
+        if(cooldown > 0)
+            cooldown -= Time.deltaTime;
 
-        // Move the controller
-        characterController.Move(moveDirection * Time.deltaTime);
+        if(Input.GetKeyDown(KeyCode.LeftShift) && cooldown <= 0) {
+            rb.velocity = rb.velocity * speed;
+
+            cooldown = 6f;
+        }
+
     }
 }
