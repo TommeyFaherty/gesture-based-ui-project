@@ -56,7 +56,11 @@ public class LevelBuilder : MonoBehaviour
             if (blockMapping.character == c)
             {
                 Vector3 position = new Vector3(x, y, z);
-                Instantiate(blockMapping.block, position, Quaternion.identity, transform);
+                GameObject block = Instantiate(blockMapping.block, position, Quaternion.identity, transform);
+                block.transform.parent = gameObject.transform;
+                block.AddComponent<MeshCollider>();
+                block.AddComponent<Rigidbody>();
+                block.GetComponent<Rigidbody>().isKinematic = true;
             }
         }
     }
