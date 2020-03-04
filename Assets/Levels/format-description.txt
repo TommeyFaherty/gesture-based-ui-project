@@ -1,0 +1,10 @@
+First line: width, length, height, separated by a space
+
+(space): blank
+X: cube
+<: linear slope
+C: curved slope
+^: spikes
+V: collapsing cube
+
+Each layer separated by a new line.
