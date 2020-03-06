@@ -560,15 +560,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelBlocksPath: level-1-blocks.txt
+  levelRotationsPath: level-1-rotations.txt
   blockMappings:
   - character: 88
-    block: {fileID: -927199367670048503, guid: 83bfa072c0f7cef4fbd74d177334a930, type: 3}
+    block: {fileID: 2000713054771161023, guid: b15185a97e22f7f47838cb150a5e77fc, type: 3}
   - character: 60
-    block: {fileID: -927199367670048503, guid: 49afebf0583ba2040a04ae47aeaae482, type: 3}
+    block: {fileID: 1578565975623131810, guid: 67be67a3e1196914fa23aff32851a673, type: 3}
   - character: 67
-    block: {fileID: -927199367670048503, guid: 56dba2912aefe1040b14b3696e159dc4, type: 3}
+    block: {fileID: 4664966598420256935, guid: 7e8b6fdd37cb2634abaaaae6a2ed087f, type: 3}
   - character: 94
-    block: {fileID: -927199367670048503, guid: 73ed506d88f9dfd44a9a563a2eb8e48e, type: 3}
+    block: {fileID: 1444580369535194526, guid: d00a46b4319812945900bebfb6978b11, type: 3}
 --- !u!4 &1611527601
 Transform:
   m_ObjectHideFlags: 0
