@@ -15,7 +15,7 @@ X     X
 X     X
 X     X
 X     X
-X  X<<X
+XCCX<<X
  XXXXXXXXX
  XXXXXXXXX
  XXXXXXXXX
@@ -38,7 +38,7 @@ X  X<<X
 
 
 
-      X
+ XXXX XXXX
  XXXX<XXXX
  XXXXXXXXX
  XXXXXXXXX
