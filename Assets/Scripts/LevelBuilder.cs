@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 // very losely based on this: https://youtu.be/B_Xp9pt8nRY
@@ -47,9 +49,10 @@ public class LevelBuilder : MonoBehaviour
             blocksReader.ReadLine();
             rotationsReader.ReadLine();
         }
-       
         blocksReader.Close();
         rotationsReader.Close();
+
+        CentreTransform();
     }
 
     void GenerateBlock(char b, int x, int y, int z, int r)
@@ -71,6 +74,23 @@ public class LevelBuilder : MonoBehaviour
                 GameObject block = Instantiate(blockMapping.block, position, rotation, transform);
                 block.transform.parent = gameObject.transform;
             }
+        }
+    }
+
+    private void CentreTransform()
+    {
+        Vector3 oldCentre = transform.position;
+        Vector3 newCentre = Vector3.zero;
+        foreach (Transform child in transform)
+        {
+            newCentre += child.position;
+        }
+        newCentre /= transform.childCount;
+        Vector3 childOffset = newCentre - oldCentre;
+
+        foreach (Transform child in transform)
+        {
+            child.transform.position -= childOffset;
         }
     }
 }
