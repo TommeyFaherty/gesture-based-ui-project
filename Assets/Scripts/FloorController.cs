@@ -11,15 +11,7 @@ public class FloorController : MonoBehaviour
     private float LKeysXAxis = 0f, LKeysZAxis = -0.5f;
     private float xHolder, zHolder;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //Keys to rotate floor - similar to wasd but using ijkl instead
         if(Input.GetKey(KeyCode.I))
