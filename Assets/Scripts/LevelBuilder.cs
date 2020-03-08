@@ -6,8 +6,11 @@ using UnityEngine;
 // very losely based on this: https://youtu.be/B_Xp9pt8nRY
 public class LevelBuilder : MonoBehaviour
 {
+    // path of block layout file
     public string levelBlocksPath;
+    // path of block rotations file
     public string levelRotationsPath;
+    // mapping from character to block (specified in the editor)
     public BlockCharacter[] blockMappings;
 
     void Start()
@@ -17,6 +20,7 @@ public class LevelBuilder : MonoBehaviour
 
     void BuildLevel()
     {
+        // open layout files
         StreamReader blocksReader = new StreamReader("Assets/Levels/" + levelBlocksPath);
         StreamReader rotationsReader = new StreamReader("Assets/Levels/" + levelRotationsPath);
         // read width/length/height
@@ -31,16 +35,20 @@ public class LevelBuilder : MonoBehaviour
         {
             for (int l = 0; l < length; l++)
             {
+                // read line of blocks/rotations
                 blocksLine = blocksReader.ReadLine().ToCharArray();
                 rotationsLine = rotationsReader.ReadLine().ToCharArray();
                 for (int w = 0; w < blocksLine.Length; w++)
                 {
+                    // current block
                     char b = blocksLine[w];
                     int r = 0;
                     if (w < rotationsLine.Length)
                     {
+                        // block rotation
                         r = (int) char.GetNumericValue(rotationsLine[w]);
                     }
+                    // instantiate block in the world
                     GenerateBlock(b, w * 2, h * 2, -l * 2, r);
                 }
             }
@@ -49,10 +57,12 @@ public class LevelBuilder : MonoBehaviour
             blocksReader.ReadLine();
             rotationsReader.ReadLine();
         }
+        // close files
         blocksReader.Close();
         rotationsReader.Close();
 
-        CentreTransform();
+        // move blocks to be centered for this GameObject, based on the midpoint of all child blocks
+        CentreBlocksInLevel();
     }
 
     void GenerateBlock(char b, int x, int y, int z, int r)
@@ -63,31 +73,36 @@ public class LevelBuilder : MonoBehaviour
             return;
         }
 
-        Debug.Log("z: " + z);
-
+        // find the corresponding block for the specified character
         foreach (BlockCharacter blockMapping in blockMappings)
         {
             if (blockMapping.character == b)
             {
+                // spawn block
                 Vector3 position = new Vector3(x, y, z);
                 Quaternion rotation = blockMapping.block.transform.rotation * Quaternion.Euler(r * 90, 0, 0);
                 GameObject block = Instantiate(blockMapping.block, position, rotation, transform);
+                // set block's parent to the level object
                 block.transform.parent = gameObject.transform;
             }
         }
     }
 
-    private void CentreTransform()
+    private void CentreBlocksInLevel()
     {
         Vector3 oldCentre = transform.position;
         Vector3 newCentre = Vector3.zero;
+        // add up all child positions
         foreach (Transform child in transform)
         {
             newCentre += child.position;
         }
+        // compute the center (mean position)
         newCentre /= transform.childCount;
+        // distance to move each child
         Vector3 childOffset = newCentre - oldCentre;
 
+        // move children
         foreach (Transform child in transform)
         {
             child.transform.position -= childOffset;
