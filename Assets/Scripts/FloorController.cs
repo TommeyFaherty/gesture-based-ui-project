@@ -11,6 +11,47 @@ public class FloorController : MonoBehaviour
     private float LKeysXAxis = 0f, LKeysZAxis = -0.5f;
     private float xHolder, zHolder;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            //Upon rotating anti-clockwise controls are changed to match users perspective
+            xHolder = IKeysXAxis;
+            zHolder = IKeysZAxis;
+
+            IKeysXAxis = JKeysXAxis;
+            IKeysZAxis = JKeysZAxis;
+
+            JKeysXAxis = KKeysXAxis;
+            JKeysZAxis = KKeysZAxis;
+
+            KKeysXAxis = LKeysXAxis;
+            KKeysZAxis = LKeysZAxis;
+
+            LKeysXAxis = xHolder;
+            LKeysZAxis = zHolder;
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            //Upon rotating clockwise controls are changed to match users perspective
+            xHolder = IKeysXAxis;
+            zHolder = IKeysZAxis;
+
+            IKeysXAxis = LKeysXAxis;
+            IKeysZAxis = LKeysZAxis;
+
+            LKeysXAxis = KKeysXAxis;
+            LKeysZAxis = KKeysZAxis;
+
+            KKeysXAxis = JKeysXAxis;
+            KKeysZAxis = JKeysZAxis;
+
+            JKeysXAxis = xHolder;
+            JKeysZAxis = zHolder;
+        }
+    }
+
     void FixedUpdate()
     {
         //Keys to rotate floor - similar to wasd but using ijkl instead
@@ -40,44 +81,5 @@ public class FloorController : MonoBehaviour
         {
             transform.Rotate(0,-0.5f,0);
         }
-
-        if(Input.GetKeyDown(KeyCode.T))
-        {   
-            //Upon rotating anti-clockwise controls are changed to match users perspective
-            xHolder = IKeysXAxis;
-            zHolder = IKeysZAxis;
-
-            IKeysXAxis = JKeysXAxis;
-            IKeysZAxis = JKeysZAxis;
-
-            JKeysXAxis = KKeysXAxis;
-            JKeysZAxis = KKeysZAxis;
-
-            KKeysXAxis = LKeysXAxis;
-            KKeysZAxis = LKeysZAxis;
-
-            LKeysXAxis = xHolder;
-            LKeysZAxis = zHolder;
-        }
-
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            //Upon rotating clockwise controls are changed to match users perspective
-            xHolder = IKeysXAxis;
-            zHolder = IKeysZAxis;
-
-            IKeysXAxis = LKeysXAxis;
-            IKeysZAxis = LKeysZAxis;
-
-            LKeysXAxis = KKeysXAxis;
-            LKeysZAxis = KKeysZAxis;
-
-            KKeysXAxis = JKeysXAxis;
-            KKeysZAxis = JKeysZAxis;
-
-            JKeysXAxis = xHolder;
-            JKeysZAxis = zHolder;
-        }
-
     }
 }
