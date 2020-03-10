@@ -26,6 +26,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CurvedSlopePrefab
       objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: 56dba2912aefe1040b14b3696e159dc4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8f0c1795994950941b283cddaaa5cd10, type: 2}
+    - target: {fileID: -1504981713932161579, guid: 56dba2912aefe1040b14b3696e159dc4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8f0c1795994950941b283cddaaa5cd10, type: 2}
     - target: {fileID: -4216859302048453862, guid: 56dba2912aefe1040b14b3696e159dc4,
         type: 3}
       propertyPath: m_LocalPosition.x
