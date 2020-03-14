@@ -50,7 +50,7 @@ XCCX<<X
 
       XXXX
  X^      X
- X^    X X X
- X^    X   WX
- XXXXXXXXX X
+ X^    X X 
+ X^    X   W
+ XXXXXXXXX 
 ------------------
