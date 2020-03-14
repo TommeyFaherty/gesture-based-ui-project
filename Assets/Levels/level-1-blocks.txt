@@ -1,4 +1,4 @@
-10 10 5
+12 10 5
 
  XXXXX
  X#XXX
@@ -38,9 +38,9 @@ XCCX<<X
 
 
       XXXX
- XXXX XXXX
- XXXX<XXXX
- XXXXXXXXX
+ XXXX X#XX
+ XXXX<XX#X
+ XXXXXXXXX X
  XXXXXXXXX
 -------------------
 
@@ -48,9 +48,9 @@ XCCX<<X
 
 
 
- 
- X
- X
- X
- XXXXXXXXX
+      XXXX
+ X^      X
+ X^    X X X
+ X^    X   WX
+ XXXXXXXXX X
 ------------------
