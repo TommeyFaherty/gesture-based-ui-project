@@ -4,12 +4,39 @@ using UnityEngine;
 
 public class FloorController : MonoBehaviour
 {
+    // target x, y, and z rotation of the level
+    private float xRot, yRot, zRot;
+    // max angle (x & z) that the level can rotate to
+    private float maxAngle = 65;
+    // level turn speed
+    private float turnSpeed = 0.65f;
+    // level lerp speed; speed at which actual angle approaches target angle
+    private float lerpSpeed = 0.08f;
+
     //Variables - specifying floor rotation per axis
-    private float IKeysXAxis = 0.5f, IKeysZAxis = 0f;
-    private float JKeysXAxis = 0f, JKeysZAxis = 0.5f;
-    private float KKeysXAxis = -0.5f, KKeysZAxis = 0f;
-    private float LKeysXAxis = 0f, LKeysZAxis = -0.5f;
+    private float IKeysXAxis, IKeysZAxis;
+    private float JKeysXAxis, JKeysZAxis;
+    private float KKeysXAxis, KKeysZAxis;
+    private float LKeysXAxis, LKeysZAxis;
     private float xHolder, zHolder;
+
+    private void Start()
+    {
+        xRot = yRot = zRot = 0;
+
+        // initialise floor rotations per axis
+        IKeysXAxis = turnSpeed;
+        IKeysZAxis = 0f;
+
+        JKeysXAxis = 0f;
+        JKeysZAxis = turnSpeed;
+
+        KKeysXAxis = -turnSpeed;
+        KKeysZAxis = 0f;
+
+        LKeysXAxis = 0f;
+        LKeysZAxis = -turnSpeed;
+}
 
     private void Update()
     {
@@ -55,31 +82,58 @@ public class FloorController : MonoBehaviour
     void FixedUpdate()
     {
         //Keys to rotate floor - similar to wasd but using ijkl instead
-        if(Input.GetKey(KeyCode.I))
+        if (Input.GetKey(KeyCode.I))
         {
-            transform.Rotate(IKeysXAxis,0,IKeysZAxis);
+            xRot += IKeysXAxis;
+            zRot += IKeysZAxis;
         }
         if(Input.GetKey(KeyCode.K))
         {
-            transform.Rotate(KKeysXAxis,0,KKeysZAxis);
+            xRot += KKeysXAxis;
+            zRot += KKeysZAxis;
         }
         if(Input.GetKey(KeyCode.J))
         {
-            transform.Rotate(JKeysXAxis,0,JKeysZAxis);
+            xRot += JKeysXAxis;
+            zRot += JKeysZAxis;
         }
         if(Input.GetKey(KeyCode.L))
         {
-            transform.Rotate(LKeysXAxis,0,LKeysZAxis);
+            xRot += LKeysXAxis;
+            zRot += LKeysZAxis;
         }
 
         //O and U always same regardless of camera angle
         if(Input.GetKey(KeyCode.U))
         {
-            transform.Rotate(0,0.5f,0);
+            yRot += turnSpeed;
         }
         if(Input.GetKey(KeyCode.O))
         {
-            transform.Rotate(0,-0.5f,0);
+            yRot -= turnSpeed;
+        }
+
+        // limit rotation on the x and z axis
+        LimitRotation();
+
+        // rotate (lerp) towards target x/z angle
+        Quaternion targetRot = Quaternion.Euler(xRot, yRot, zRot);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.time * lerpSpeed);
+    }
+
+    // limit rotation on the x and z axis
+    private void LimitRotation()
+    {
+        // x and z rotation hypotenuse (basically the total rotation between the two)
+        float xzHypot = Mathf.Sqrt(Mathf.Pow(xRot, 2) + Mathf.Pow(zRot, 2));
+        if (xzHypot > maxAngle)
+        {
+            // target rotation greater than limit; limit rotation
+            // angle between x and z
+            float angle = Mathf.Atan2(zRot, xRot);
+            // compute limited x and z angles
+            xRot = Mathf.Cos(angle) * maxAngle;
+            zRot = Mathf.Sin(angle) * maxAngle;
         }
     }
 }

@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 461282068}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -451,8 +451,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b3c5bb61e9d33644a14955aa329c38f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelBlocksPath: level-1-blocks.txt
-  levelRotationsPath: level-1-rotations.txt
+  levelBlocksPath: Level1/level-1-blocks.txt
+  levelRotationsPath: Level1/level-1-rotations.txt
   blockMappings:
   - character: 88
     block: {fileID: 2000713054771161023, guid: b15185a97e22f7f47838cb150a5e77fc, type: 3}
