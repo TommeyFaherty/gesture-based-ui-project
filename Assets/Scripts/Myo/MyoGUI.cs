@@ -3,7 +3,7 @@ using System.Collections;
 
 // Draw simple instructions for sample scene.
 // Check to see if a Myo armband is paired.
-public class SampleSceneGUI : MonoBehaviour
+public class MyoGUI : MonoBehaviour
 {
     // Myo game object to connect with.
     // This object must have a ThalmicMyo script attached.

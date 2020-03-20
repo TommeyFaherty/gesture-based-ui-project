@@ -83,7 +83,7 @@ public class JointOrientation : MonoBehaviour
 
         // Here the anti-roll and yaw rotations are applied to the myo Armband's forward direction to yield
         // the orientation of the joint.
-        transform.rotation = _antiYaw * antiRoll * Quaternion.LookRotation (myo.transform.forward);
+        Quaternion target = _antiYaw * antiRoll * Quaternion.LookRotation (myo.transform.forward);
 
         // The above calculations were done assuming the Myo armbands's +x direction, in its own coordinate system,
         // was facing toward the wearer's elbow. If the Myo armband is worn with its +x direction facing the other way,
@@ -91,11 +91,13 @@ public class JointOrientation : MonoBehaviour
         if (thalmicMyo.xDirection == Thalmic.Myo.XDirection.TowardWrist) {
             // Mirror the rotation around the XZ plane in Unity's coordinate system (XY plane in Myo's coordinate
             // system). This makes the rotation reflect the arm's orientation, rather than that of the Myo armband.
-            transform.rotation = new Quaternion(transform.localRotation.x,
-                                                -transform.localRotation.y,
-                                                transform.localRotation.z,
-                                                -transform.localRotation.w);
+            target = new Quaternion(target.x,
+                                    -target.y,
+                                    target.z,
+                                    -target.w);
         }
+
+        transform.rotation = target;
     }
 
     // Compute the angle of rotation clockwise about the forward axis relative to the provided zero roll direction.
