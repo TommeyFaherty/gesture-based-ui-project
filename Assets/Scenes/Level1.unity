@@ -431,6 +431,7 @@ GameObject:
   - component: {fileID: 1611527601}
   - component: {fileID: 1611527600}
   - component: {fileID: 1611527602}
+  - component: {fileID: 1611527604}
   - component: {fileID: 1611527603}
   m_Layer: 0
   m_Name: Level
@@ -487,7 +488,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611527599}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b9d08106533bba45835b0731cad79e1, type: 3}
   m_Name: 
@@ -508,6 +509,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1611527604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611527599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 261539d6961f69c4a8b0a63ae7c836c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myo: {fileID: 1773981386869702441}
 --- !u!1 &2040673282
 GameObject:
   m_ObjectHideFlags: 0
