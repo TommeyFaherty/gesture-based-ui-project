@@ -84,6 +84,8 @@ public class JointOrientation : MonoBehaviour
         // Here the anti-roll and yaw rotations are applied to the myo Armband's forward direction to yield
         // the orientation of the joint.
         Quaternion target = _antiYaw * antiRoll * Quaternion.LookRotation (myo.transform.forward);
+        Vector3 targetEuler = target.eulerAngles;
+        target = Quaternion.Euler(targetEuler.x, 0, targetEuler.y);
 
         // The above calculations were done assuming the Myo armbands's +x direction, in its own coordinate system,
         // was facing toward the wearer's elbow. If the Myo armband is worn with its +x direction facing the other way,
