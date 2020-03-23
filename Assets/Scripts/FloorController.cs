@@ -7,11 +7,11 @@ public class FloorController : MonoBehaviour
     // target x, y, and z rotation of the level
     private float xRot, yRot, zRot;
     // max angle (x & z) that the level can rotate to
-    private float maxAngle = 70;
+    private float maxAngle = 65;
     // level turn speed
     private float turnSpeed = 0.65f;
-    // level slerp speed; speed at which actual angle approaches target angle
-    private float slerpSpeed = 3.0f;
+    // level lerp speed; speed at which actual angle approaches target angle
+    private float lerpSpeed = 0.08f;
 
     //Variables - specifying floor rotation per axis
     private float IKeysXAxis, IKeysZAxis;
@@ -19,8 +19,6 @@ public class FloorController : MonoBehaviour
     private float KKeysXAxis, KKeysZAxis;
     private float LKeysXAxis, LKeysZAxis;
     private float xHolder, zHolder;
-
-    private JointOrientation jointOrientation;
 
     private void Start()
     {
@@ -38,8 +36,6 @@ public class FloorController : MonoBehaviour
 
         LKeysXAxis = 0f;
         LKeysZAxis = -turnSpeed;
-
-        jointOrientation = GetComponent<JointOrientation>();
 }
 
     private void Update()
@@ -85,67 +81,44 @@ public class FloorController : MonoBehaviour
 
     void FixedUpdate()
     {
-        ThalmicHub hub = ThalmicHub.instance;
-        ThalmicMyo thalmicMyo = jointOrientation.myo.GetComponent<ThalmicMyo>();
-
-
-        if (hub.hubInitialized && thalmicMyo.isPaired && thalmicMyo.armSynced)
-        {
-            // myo ready, use myo controls
-            Vector3 myoRotation = jointOrientation.GetMyoRotation().eulerAngles;
-            xRot = myoRotation.x;
-            zRot = myoRotation.z;
-
-            xRot = normalizeAngle(xRot);
-            zRot = normalizeAngle(zRot);
-        }
-        else
-        {
-            // myo not ready, fall back to keyboard controls
-            ProcessKeyboardInput();
-        }
-
-        // limit rotation on the x and z axis
-        LimitRotation();
-
-        // rotate (slerp) towards target x/z angle
-        Quaternion targetRot = Quaternion.Euler(xRot, yRot, zRot);
-        transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, targetRot, Time.deltaTime * slerpSpeed);
-    }
-
-    private void ProcessKeyboardInput()
-    {
         //Keys to rotate floor - similar to wasd but using ijkl instead
         if (Input.GetKey(KeyCode.I))
         {
             xRot += IKeysXAxis;
             zRot += IKeysZAxis;
         }
-        if (Input.GetKey(KeyCode.K))
+        if(Input.GetKey(KeyCode.K))
         {
             xRot += KKeysXAxis;
             zRot += KKeysZAxis;
         }
-        if (Input.GetKey(KeyCode.J))
+        if(Input.GetKey(KeyCode.J))
         {
             xRot += JKeysXAxis;
             zRot += JKeysZAxis;
         }
-        if (Input.GetKey(KeyCode.L))
+        if(Input.GetKey(KeyCode.L))
         {
             xRot += LKeysXAxis;
             zRot += LKeysZAxis;
         }
 
         //O and U always same regardless of camera angle
-        if (Input.GetKey(KeyCode.U))
+        if(Input.GetKey(KeyCode.U))
         {
             yRot += turnSpeed;
         }
-        if (Input.GetKey(KeyCode.O))
+        if(Input.GetKey(KeyCode.O))
         {
             yRot -= turnSpeed;
         }
+
+        // limit rotation on the x and z axis
+        LimitRotation();
+
+        // rotate (lerp) towards target x/z angle
+        Quaternion targetRot = Quaternion.Euler(xRot, yRot, zRot);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.time * lerpSpeed);
     }
 
     // limit rotation on the x and z axis
@@ -162,19 +135,5 @@ public class FloorController : MonoBehaviour
             xRot = Mathf.Cos(angle) * maxAngle;
             zRot = Mathf.Sin(angle) * maxAngle;
         }
-    }
-
-    // Adjust the provided angle to be within a -180 to 180.
-    float normalizeAngle(float angle)
-    {
-        if (angle > 180.0f)
-        {
-            return angle - 360.0f;
-        }
-        if (angle < -180.0f)
-        {
-            return angle + 360.0f;
-        }
-        return angle;
     }
 }
