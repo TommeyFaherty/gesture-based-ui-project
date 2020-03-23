@@ -38,6 +38,11 @@ public class PlayerMovement : MonoBehaviour
 
             cooldown = 6f;
         }
+    }
 
+    private void FixedUpdate()
+    {
+        // add some extra downward force to the player so that it doesn't bounce around the level as much
+        rb.AddForce(1, -100, 1);
     }
 }

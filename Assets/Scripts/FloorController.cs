@@ -4,136 +4,154 @@ using UnityEngine;
 
 public class FloorController : MonoBehaviour
 {
-    // target x, y, and z rotation of the level
-    private float xRot, yRot, zRot;
     // max angle (x & z) that the level can rotate to
-    private float maxAngle = 65;
+    private float maxAngle = 75;
     // level turn speed
-    private float turnSpeed = 0.65f;
-    // level lerp speed; speed at which actual angle approaches target angle
-    private float lerpSpeed = 0.08f;
+    private float turnSpeed = 12f;
+    // level slerp speed; speed at which actual angle approaches target angle
+    private float slerpSpeed = 4.0f;
 
-    //Variables - specifying floor rotation per axis
-    private float IKeysXAxis, IKeysZAxis;
-    private float JKeysXAxis, JKeysZAxis;
-    private float KKeysXAxis, KKeysZAxis;
-    private float LKeysXAxis, LKeysZAxis;
-    private float xHolder, zHolder;
+    private JointOrientation jointOrientation;
+    private ThirdPersonCamera thirdPersonCamera;
+
+    // most recently used key controls (set in Update and used in FixedUpdate)
+    private Vector3 lastKeyOffsets;
+    // most recent myo orientation
+    private Vector3 lastMyoOrientation = new Vector3();
+    private bool myoReady = false;
 
     private void Start()
     {
-        xRot = yRot = zRot = 0;
-
-        // initialise floor rotations per axis
-        IKeysXAxis = turnSpeed;
-        IKeysZAxis = 0f;
-
-        JKeysXAxis = 0f;
-        JKeysZAxis = turnSpeed;
-
-        KKeysXAxis = -turnSpeed;
-        KKeysZAxis = 0f;
-
-        LKeysXAxis = 0f;
-        LKeysZAxis = -turnSpeed;
-}
+        jointOrientation = GetComponent<JointOrientation>();
+        thirdPersonCamera = FindObjectOfType<ThirdPersonCamera>();
+    }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        // update keyboard controller input
+        lastKeyOffsets = GetKeyOffsets();
+
+        // update myo input
+        ThalmicHub hub = ThalmicHub.instance;
+        ThalmicMyo thalmicMyo = jointOrientation.myo.GetComponent<ThalmicMyo>();
+        if (hub.hubInitialized && thalmicMyo.isPaired && thalmicMyo.armSynced)
         {
-            //Upon rotating anti-clockwise controls are changed to match users perspective
-            xHolder = IKeysXAxis;
-            zHolder = IKeysZAxis;
-
-            IKeysXAxis = JKeysXAxis;
-            IKeysZAxis = JKeysZAxis;
-
-            JKeysXAxis = KKeysXAxis;
-            JKeysZAxis = KKeysZAxis;
-
-            KKeysXAxis = LKeysXAxis;
-            KKeysZAxis = LKeysZAxis;
-
-            LKeysXAxis = xHolder;
-            LKeysZAxis = zHolder;
+            // myo ready, use myo controls
+            lastMyoOrientation = jointOrientation.GetMyoRotation();
+            myoReady = true;
         }
-
-        if (Input.GetKeyDown(KeyCode.R))
+        else
         {
-            //Upon rotating clockwise controls are changed to match users perspective
-            xHolder = IKeysXAxis;
-            zHolder = IKeysZAxis;
-
-            IKeysXAxis = LKeysXAxis;
-            IKeysZAxis = LKeysZAxis;
-
-            LKeysXAxis = KKeysXAxis;
-            LKeysZAxis = KKeysZAxis;
-
-            KKeysXAxis = JKeysXAxis;
-            KKeysZAxis = JKeysZAxis;
-
-            JKeysXAxis = xHolder;
-            JKeysZAxis = zHolder;
+            myoReady = false;
         }
     }
 
     void FixedUpdate()
     {
+        // target x, y, and z rotation of the level
+        Vector3 currentRotation = transform.rotation.eulerAngles;
+        Vector3 targetRotation;
+
+        if (myoReady)
+        {
+            // myo ready, use myo controls
+            targetRotation = RotateVectorAroundCamera(lastMyoOrientation);
+        }
+        else
+        {
+            // myo not ready, fall back to keyboard controls
+            targetRotation = currentRotation + RotateVectorAroundCamera(lastKeyOffsets);
+        }
+        
+        // angle that the level will rotate towards
+        Quaternion targetQuat = Quaternion.Euler(targetRotation);
+        // rotate (slerp) towards target x/z angle
+        transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, targetQuat, Time.deltaTime * slerpSpeed);
+        // limit rotation to maxAngle
+        transform.rotation = Quaternion.Euler(LimitRotation(transform.rotation.eulerAngles));
+    }
+
+    // get keyboard control angle offsets
+    private Vector3 GetKeyOffsets()
+    {
+        float xOff = 0;
+        float yOff = 0;
+        float zOff = 0;
+
         //Keys to rotate floor - similar to wasd but using ijkl instead
         if (Input.GetKey(KeyCode.I))
         {
-            xRot += IKeysXAxis;
-            zRot += IKeysZAxis;
+            xOff += turnSpeed;
         }
-        if(Input.GetKey(KeyCode.K))
+        if (Input.GetKey(KeyCode.K))
         {
-            xRot += KKeysXAxis;
-            zRot += KKeysZAxis;
+            xOff -= turnSpeed;
         }
-        if(Input.GetKey(KeyCode.J))
+        if (Input.GetKey(KeyCode.J))
         {
-            xRot += JKeysXAxis;
-            zRot += JKeysZAxis;
+            zOff += turnSpeed;
         }
-        if(Input.GetKey(KeyCode.L))
+        if (Input.GetKey(KeyCode.L))
         {
-            xRot += LKeysXAxis;
-            zRot += LKeysZAxis;
+            zOff -= turnSpeed;
         }
 
         //O and U always same regardless of camera angle
-        if(Input.GetKey(KeyCode.U))
+        if (Input.GetKey(KeyCode.U))
         {
-            yRot += turnSpeed;
+            yOff += turnSpeed;
         }
-        if(Input.GetKey(KeyCode.O))
+        if (Input.GetKey(KeyCode.O))
         {
-            yRot -= turnSpeed;
+            yOff -= turnSpeed;
         }
 
-        // limit rotation on the x and z axis
-        LimitRotation();
-
-        // rotate (lerp) towards target x/z angle
-        Quaternion targetRot = Quaternion.Euler(xRot, yRot, zRot);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.time * lerpSpeed);
+        return new Vector3(xOff, yOff, zOff);
     }
 
     // limit rotation on the x and z axis
-    private void LimitRotation()
+    private Vector3 LimitRotation(Vector3 vector)
     {
+        // normalize angles
+        float nx = normalizeAngle(vector.x);
+        float ny = normalizeAngle(vector.y);
+        float nz = normalizeAngle(vector.z);
+
         // x and z rotation hypotenuse (basically the total rotation between the two)
-        float xzHypot = Mathf.Sqrt(Mathf.Pow(xRot, 2) + Mathf.Pow(zRot, 2));
-        if (xzHypot > maxAngle)
+        float mag = Mathf.Sqrt(Mathf.Pow(nx, 2) + Mathf.Pow(nz, 2));
+        if (mag > maxAngle)
         {
             // target rotation greater than limit; limit rotation
             // angle between x and z
-            float angle = Mathf.Atan2(zRot, xRot);
+            float angle = Mathf.Atan2(nz, nx);
             // compute limited x and z angles
-            xRot = Mathf.Cos(angle) * maxAngle;
-            zRot = Mathf.Sin(angle) * maxAngle;
+            return new Vector3(Mathf.Cos(angle) * maxAngle, vector.y, Mathf.Sin(angle) * maxAngle);
         }
+        else
+        {
+            // no limitation needed
+            return vector;
+        }
+    }
+
+    private Vector3 RotateVectorAroundCamera(Vector3 angle)
+    {
+        // rotate the rotation control by the camera angle
+        // (in other words, make sure left is always left and right is always right from the player's perspective)
+        return Quaternion.Euler(thirdPersonCamera.currentX, thirdPersonCamera.currentY, 0) * angle;
+    }
+
+    // Adjust the provided angle to be within a -180 to 180.
+    float normalizeAngle(float angle)
+    {
+        if (angle > 180.0f)
+        {
+            return angle - 360.0f;
+        }
+        if (angle < -180.0f)
+        {
+            return angle + 360.0f;
+        }
+        return angle;
     }
 }
