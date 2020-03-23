@@ -5,11 +5,11 @@ using UnityEngine;
 public class FloorController : MonoBehaviour
 {
     // max angle (x & z) that the level can rotate to
-    private float maxAngle = 70;
+    private float maxAngle = 75;
     // level turn speed
-    private float turnSpeed = 10f;
+    private float turnSpeed = 12f;
     // level slerp speed; speed at which actual angle approaches target angle
-    private float slerpSpeed = 3.0f;
+    private float slerpSpeed = 4.0f;
 
     private JointOrientation jointOrientation;
     private ThirdPersonCamera thirdPersonCamera;
@@ -138,7 +138,7 @@ public class FloorController : MonoBehaviour
     {
         // rotate the rotation control by the camera angle
         // (in other words, make sure left is always left and right is always right from the player's perspective)
-        return Quaternion.Euler(0, thirdPersonCamera.currentY, 0) * angle;
+        return Quaternion.Euler(thirdPersonCamera.currentX, thirdPersonCamera.currentY, 0) * angle;
     }
 
     // Adjust the provided angle to be within a -180 to 180.
