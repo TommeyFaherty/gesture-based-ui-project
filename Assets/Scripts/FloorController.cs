@@ -7,12 +7,18 @@ public class FloorController : MonoBehaviour
     // max angle (x & z) that the level can rotate to
     private float maxAngle = 70;
     // level turn speed
-    private float turnSpeed = 0.65f;
+    private float turnSpeed = 10f;
     // level slerp speed; speed at which actual angle approaches target angle
     private float slerpSpeed = 3.0f;
 
     private JointOrientation jointOrientation;
     private ThirdPersonCamera thirdPersonCamera;
+
+    // most recently used key controls (set in Update and used in FixedUpdate)
+    private Vector3 lastKeyOffsets;
+    // most recent myo orientation
+    private Vector3 lastMyoOrientation = new Vector3();
+    private bool myoReady = false;
 
     private void Start()
     {
@@ -20,30 +26,49 @@ public class FloorController : MonoBehaviour
         thirdPersonCamera = FindObjectOfType<ThirdPersonCamera>();
     }
 
-    void FixedUpdate()
+    private void Update()
     {
+        // update keyboard controller input
+        lastKeyOffsets = GetKeyOffsets();
+
+        // update myo input
         ThalmicHub hub = ThalmicHub.instance;
         ThalmicMyo thalmicMyo = jointOrientation.myo.GetComponent<ThalmicMyo>();
+        if (hub.hubInitialized && thalmicMyo.isPaired && thalmicMyo.armSynced)
+        {
+            // myo ready, use myo controls
+            lastMyoOrientation = jointOrientation.GetMyoRotation();
+            myoReady = true;
+        }
+        else
+        {
+            myoReady = false;
+        }
+    }
 
+    void FixedUpdate()
+    {
         // target x, y, and z rotation of the level
         Vector3 currentRotation = transform.rotation.eulerAngles;
         Vector3 targetRotation;
 
-        if (hub.hubInitialized && thalmicMyo.isPaired && thalmicMyo.armSynced)
+        if (myoReady)
         {
             // myo ready, use myo controls
-            targetRotation = RotateVectorAroundCamera(jointOrientation.GetMyoRotation());
+            targetRotation = RotateVectorAroundCamera(lastMyoOrientation);
         }
         else
         {
             // myo not ready, fall back to keyboard controls
-            targetRotation = currentRotation + RotateVectorAroundCamera(GetKeyOffsets());
+            targetRotation = currentRotation + RotateVectorAroundCamera(lastKeyOffsets);
         }
         
-        // angle that the level will rotate towards (limited to maxAngle)
-        Quaternion targetRot = Quaternion.Euler(LimitRotation(targetRotation));
+        // angle that the level will rotate towards
+        Quaternion targetQuat = Quaternion.Euler(targetRotation);
         // rotate (slerp) towards target x/z angle
-        transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, targetRot, Time.deltaTime * slerpSpeed);
+        transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, targetQuat, Time.deltaTime * slerpSpeed);
+        // limit rotation to maxAngle
+        transform.rotation = Quaternion.Euler(LimitRotation(transform.rotation.eulerAngles));
     }
 
     // get keyboard control angle offsets
@@ -87,13 +112,18 @@ public class FloorController : MonoBehaviour
     // limit rotation on the x and z axis
     private Vector3 LimitRotation(Vector3 vector)
     {
+        // normalize angles
+        float nx = normalizeAngle(vector.x);
+        float ny = normalizeAngle(vector.y);
+        float nz = normalizeAngle(vector.z);
+
         // x and z rotation hypotenuse (basically the total rotation between the two)
-        float xzHypot = Mathf.Sqrt(Mathf.Pow(vector.x, 2) + Mathf.Pow(vector.z, 2));
-        if (xzHypot > maxAngle)
+        float mag = Mathf.Sqrt(Mathf.Pow(nx, 2) + Mathf.Pow(nz, 2));
+        if (mag > maxAngle)
         {
             // target rotation greater than limit; limit rotation
             // angle between x and z
-            float angle = Mathf.Atan2(vector.z, vector.x);
+            float angle = Mathf.Atan2(nz, nx);
             // compute limited x and z angles
             return new Vector3(Mathf.Cos(angle) * maxAngle, vector.y, Mathf.Sin(angle) * maxAngle);
         }
@@ -109,5 +139,19 @@ public class FloorController : MonoBehaviour
         // rotate the rotation control by the camera angle
         // (in other words, make sure left is always left and right is always right from the player's perspective)
         return Quaternion.Euler(0, thirdPersonCamera.currentY, 0) * angle;
+    }
+
+    // Adjust the provided angle to be within a -180 to 180.
+    float normalizeAngle(float angle)
+    {
+        if (angle > 180.0f)
+        {
+            return angle - 360.0f;
+        }
+        if (angle < -180.0f)
+        {
+            return angle + 360.0f;
+        }
+        return angle;
     }
 }
