@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
+    public float currentX = 25f;
+    public float currentY = 0.0f;
+
     private const float Y_ANGLE_MIN = 0.0f;
     private const float Y_ANGLE_MAX = 50.0f;
 
@@ -13,8 +16,6 @@ public class ThirdPersonCamera : MonoBehaviour
     private Camera cam;
 
     private float distance = 18.0f;
-    private float currentX = 0.0f;
-    private float currentY = 25f;
     private float value = 0.0f;
 
     private void Start()
@@ -39,13 +40,13 @@ public class ThirdPersonCamera : MonoBehaviour
         }
 
         //Camera glides when rotating instead of jumping to position
-        if(currentX < value)
+        if(currentY < value)
         {
-            currentX += 5;
+            currentY += 5;
         }
-        else if(currentX > value)
+        else if(currentY > value)
         {
-            currentX -= 5;
+            currentY -= 5;
         }
 
         //currentY = Mathf.Clamp(currentY,Y_ANGLE_MIN,Y_ANGLE_MAX);
@@ -55,7 +56,7 @@ public class ThirdPersonCamera : MonoBehaviour
     {
 
         Vector3 dir = new Vector3(0,0,-distance);
-        Quaternion rotation = Quaternion.Euler(currentY,currentX,0);
+        Quaternion rotation = Quaternion.Euler(currentX,currentY,0);
         camTransform.position = lookAt.position + rotation * dir;
         camTransform.LookAt(lookAt.position);
     }

@@ -33,7 +33,7 @@ public class JointOrientation : MonoBehaviour
     private bool initialised = false;
 
     // Update is called once per frame.
-    public Quaternion GetMyoRotation ()
+    public Vector3 GetMyoRotation ()
     {
         // Access the ThalmicMyo component attached to the Myo object.
         ThalmicMyo thalmicMyo = myo.GetComponent<ThalmicMyo> ();
@@ -95,7 +95,11 @@ public class JointOrientation : MonoBehaviour
                                     -target.w);
         }
 
-        return target;
+        return new Vector3(
+            normalizeAngle(target.eulerAngles.x),
+            normalizeAngle(target.eulerAngles.y),
+            normalizeAngle(target.eulerAngles.z)
+        );
     }
 
     public void UpdateReference()
