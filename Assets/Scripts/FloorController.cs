@@ -11,7 +11,7 @@ public class FloorController : MonoBehaviour
     // level slerp speed; speed at which actual angle approaches target angle
     private float slerpSpeed = 4.0f;
 
-    private JointOrientation jointOrientation;
+    private MyoOrientation jointOrientation;
     private ThirdPersonCamera thirdPersonCamera;
 
     // most recently used key controls (set in Update and used in FixedUpdate)
@@ -22,7 +22,7 @@ public class FloorController : MonoBehaviour
 
     private void Start()
     {
-        jointOrientation = GetComponent<JointOrientation>();
+        jointOrientation = GetComponent<MyoOrientation>();
         thirdPersonCamera = FindObjectOfType<ThirdPersonCamera>();
     }
 
