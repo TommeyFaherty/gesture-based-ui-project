@@ -81,7 +81,7 @@ public class JointOrientation : MonoBehaviour
         // the orientation of the joint.
         Quaternion target = _antiYaw * antiRoll * Quaternion.LookRotation (myo.transform.forward);
         Vector3 targetEuler = target.eulerAngles;
-        target = Quaternion.Euler(targetEuler.x, 0, targetEuler.y);
+        target = Quaternion.Euler(targetEuler.x, targetEuler.y, targetEuler.z);
 
         // The above calculations were done assuming the Myo armbands's +x direction, in its own coordinate system,
         // was facing toward the wearer's elbow. If the Myo armband is worn with its +x direction facing the other way,
@@ -95,10 +95,11 @@ public class JointOrientation : MonoBehaviour
                                     -target.w);
         }
 
+        // use axis that make sense for our game (eg. ignoring z axis, roll is too confusing)
         return new Vector3(
             normalizeAngle(target.eulerAngles.x),
-            normalizeAngle(target.eulerAngles.y),
-            normalizeAngle(target.eulerAngles.z)
+            0,
+            -normalizeAngle(target.eulerAngles.y)
         );
     }
 

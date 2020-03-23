@@ -32,7 +32,7 @@ public class FloorController : MonoBehaviour
         if (hub.hubInitialized && thalmicMyo.isPaired && thalmicMyo.armSynced)
         {
             // myo ready, use myo controls
-            targetRotation = jointOrientation.GetMyoRotation();
+            targetRotation = RotateVectorAroundCamera(jointOrientation.GetMyoRotation());
         }
         else
         {
