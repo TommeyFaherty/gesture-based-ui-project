@@ -1,10 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-
-using LockingPolicy = Thalmic.Myo.LockingPolicy;
-using Pose = Thalmic.Myo.Pose;
-using UnlockType = Thalmic.Myo.UnlockType;
-using VibrationType = Thalmic.Myo.VibrationType;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,12 +8,14 @@ public class PlayerMovement : MonoBehaviour
     private float distToGround;
     Rigidbody rb;
 
-    private Pose _lastPose = Pose.Unknown;
+    private MyoPose myoPose;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         distToGround = GetComponent<Collider>().bounds.extents.y;
+
+        myoPose = FindObjectOfType<MyoPose>();
     }
 
     bool IsGrounded() {
@@ -28,29 +24,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // Access the ThalmicMyo component attached to the Myo game object.
-        ThalmicMyo thalmicMyo = FindObjectOfType<ThalmicMyo>();
-        bool myoJump = false;
-        bool myoDash = false;
-
-        if (thalmicMyo.pose != _lastPose)
-        {
-            _lastPose = thalmicMyo.pose;
-
-            if (thalmicMyo.pose == Pose.Fist)
-            {
-                myoJump = true;
-            }
-            else if (thalmicMyo.pose == Pose.DoubleTap)
-            {
-                myoDash = true;
-            }
-
-            ExtendUnlockAndNotifyUserAction(thalmicMyo);
-        }
-
         //Jump with ball if its on the ground
-        if ((Input.GetKeyDown(KeyCode.Space) || myoJump) && IsGrounded()) {
+        if ((Input.GetKeyDown(KeyCode.Space) || myoPose.ConsumeFistIfDetected()) && IsGrounded()) {
             Vector3 jumpVelocity = new Vector3(0f,jumpForce,0f);
             
             //Ensures ball maintains speed
@@ -62,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
         if(cooldown > 0)
             cooldown -= Time.deltaTime;
 
-        if((Input.GetKeyDown(KeyCode.LeftShift) || myoDash) && cooldown <= 0) {
+        if((Input.GetKeyDown(KeyCode.LeftShift) || myoPose.ConsumeDoubleTapIfDetected()) && cooldown <= 0) {
             rb.velocity *= dashForce;
 
             cooldown = 6f;
@@ -73,19 +48,5 @@ public class PlayerMovement : MonoBehaviour
     {
         // add some extra downward force to the player so that it doesn't bounce around the level as much
         rb.AddForce(1, -100, 1);
-    }
-
-    // Extend the unlock if ThalmcHub's locking policy is standard, and notifies the given myo that a user action was
-    // recognized.
-    void ExtendUnlockAndNotifyUserAction(ThalmicMyo myo)
-    {
-        ThalmicHub hub = ThalmicHub.instance;
-
-        if (hub.lockingPolicy == LockingPolicy.Standard)
-        {
-            myo.Unlock(UnlockType.Timed);
-        }
-
-        myo.NotifyUserAction();
     }
 }
