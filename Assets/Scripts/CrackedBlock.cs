@@ -5,12 +5,15 @@ using UnityEngine;
 public class CrackedBlock : MonoBehaviour
 {
     private float thrust = 200.0f;
+    private bool touched = false;
     private void OnCollisionEnter(Collision collision)
     {
-       
-        Debug.Log("Collision detected");
-        StartCoroutine("CubeFalling");
-        
+        if(touched.Equals(false))
+        {
+            Debug.Log("Collision detected");
+            StartCoroutine("CubeFalling");
+            touched = true;
+        }
     }
     IEnumerator CubeFalling(){ 
         yield return new WaitForSeconds(3.0f); 
