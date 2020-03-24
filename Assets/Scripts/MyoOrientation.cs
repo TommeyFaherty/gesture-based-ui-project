@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using static AngleUtils;
 
+// -- Taken and modified from Myo sample --
+
 // Orient the object to match that of the Myo armband.
 // Compensate for initial yaw (orientation about the gravity vector) and roll (orientation about
 // the wearer's arm) by allowing the user to set a reference orientation.
