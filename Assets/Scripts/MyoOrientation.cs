@@ -68,8 +68,8 @@ public class MyoOrientation : MonoBehaviour
         }
 
         // Current zero roll vector and roll value.
-        Vector3 zeroRoll = computeZeroRollVector (myo.transform.forward);
-        float roll = rollFromZero (zeroRoll, myo.transform.forward, myo.transform.up);
+        Vector3 zeroRoll = ComputeZeroRollVector (myo.transform.forward);
+        float roll = RollFromZero (zeroRoll, myo.transform.forward, myo.transform.up);
 
         // The relative roll is simply how much the current roll has changed relative to the reference roll.
         // adjustAngle simply keeps the resultant value within -180 to 180 degrees.
@@ -118,14 +118,14 @@ public class MyoOrientation : MonoBehaviour
         // roll direction. This direction is calculated and explained below. When this reference is
         // taken, the joint will be rotated about its forward axis such that it faces upwards when
         // the roll value matches the reference.
-        Vector3 referenceZeroRoll = computeZeroRollVector(myo.transform.forward);
-        _referenceRoll = rollFromZero(referenceZeroRoll, myo.transform.forward, myo.transform.up);
+        Vector3 referenceZeroRoll = ComputeZeroRollVector(myo.transform.forward);
+        _referenceRoll = RollFromZero(referenceZeroRoll, myo.transform.forward, myo.transform.up);
     }
 
     // Compute the angle of rotation clockwise about the forward axis relative to the provided zero roll direction.
     // As the armband is rotated about the forward axis this value will change, regardless of which way the
     // forward vector of the Myo is pointing. The returned value will be between -180 and 180 degrees.
-    float rollFromZero (Vector3 zeroRoll, Vector3 forward, Vector3 up)
+    float RollFromZero (Vector3 zeroRoll, Vector3 forward, Vector3 up)
     {
         // The cosine of the angle between the up vector and the zero roll vector. Since both are
         // orthogonal to the forward vector, this tells us how far the Myo has been turned around the
@@ -148,7 +148,7 @@ public class MyoOrientation : MonoBehaviour
     // Compute a vector that points perpendicular to the forward direction,
     // minimizing angular distance from world up (positive Y axis).
     // This represents the direction of no rotation about its forward axis.
-    Vector3 computeZeroRollVector (Vector3 forward)
+    Vector3 ComputeZeroRollVector (Vector3 forward)
     {
         Vector3 antigravity = Vector3.up;
         Vector3 m = Vector3.Cross (myo.transform.forward, antigravity);

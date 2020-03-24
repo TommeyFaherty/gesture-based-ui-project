@@ -21,49 +21,28 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private float distance = 18.0f;
     private float value = 0.0f;
-    private float rotateSpeed = 90;
+    private float rotateSpeed = 120;
 
-    // The pose from the last update. This is used to determine if the pose has changed
-    // so that actions are only performed upon making them rather than every frame during
-    // which they are active.
-    private Pose _lastPose = Pose.Unknown;
+    private MyoPose myoPose;
 
     private void Start()
     {
         camTransform = transform;
         cam = Camera.main;
         subject = new Vector3();
+        myoPose = FindObjectOfType<MyoPose>();
     }
 
     private void Update()
     {
-        // Access the ThalmicMyo component attached to the Myo game object.
-        ThalmicMyo thalmicMyo = FindObjectOfType<ThalmicMyo>();
-
-        if (thalmicMyo.pose != _lastPose)
-        {
-            _lastPose = thalmicMyo.pose;
-
-            if (thalmicMyo.pose == Pose.WaveIn)
-            {
-                value += 90;
-            }
-            else if (thalmicMyo.pose == Pose.WaveOut)
-            {
-                value -= 90;
-            }
-
-            ExtendUnlockAndNotifyUserAction(thalmicMyo);
-        }
-
         //if R is pressed rotate camera 90 degrees clockwise
         //T anti-clockwise
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) || myoPose.ConsumeWaveInIfDetected())
         {
             value += 90;
             Debug.Log("R was pressed");
         }
-        if(Input.GetKeyDown(KeyCode.T))
+        if(Input.GetKeyDown(KeyCode.T) || myoPose.ConsumeWaveOutIfDetected())
         {
             value -= 90;
             Debug.Log("T was pressed");

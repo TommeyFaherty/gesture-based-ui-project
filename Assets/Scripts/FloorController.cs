@@ -61,7 +61,7 @@ public class FloorController : MonoBehaviour
         else
         {
             // myo not ready, fall back to keyboard controls
-            targetRotation = currentRotation + RotateVectorAroundVector(lastMyoOrientation, thirdPersonCamera.subject);
+            targetRotation = currentRotation + RotateVectorAroundVector(GetKeyOffsets(), thirdPersonCamera.subject);
         }
         
         // angle that the level will rotate towards
