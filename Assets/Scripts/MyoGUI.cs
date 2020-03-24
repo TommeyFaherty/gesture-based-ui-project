@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+// -- Taken from Myo sample --
+
 // Draw simple instructions for sample scene.
 // Check to see if a Myo armband is paired.
 public class MyoGUI : MonoBehaviour

@@ -22,7 +22,7 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         camTransform = transform;
         cam = Camera.main;
-        subject = new Vector3();
+        subject = new Vector3(25, 0, 0);
         myoPose = FindObjectOfType<MyoPose>();
     }
 

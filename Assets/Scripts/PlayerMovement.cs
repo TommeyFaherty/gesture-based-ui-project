@@ -3,7 +3,7 @@
 public class PlayerMovement : MonoBehaviour
 {
     private float jumpForce = 10f;
-    private float dashForce = 15f;
+    private float dashForce = 5f;
     private float cooldown = 0f;
     private float distToGround;
     Rigidbody rb;

@@ -29,9 +29,11 @@ public class AngleUtils
 
     public static Vector3 RotateVectorAroundVector(Vector3 vector, Vector3 subject)
     {
+        Vector3 yOnly = new Vector3(0, subject.y, 0);
+
         // rotate the rotation control by the camera angle
         // (in other words, make sure left is always left and right is always right from the player's perspective)
-        return Quaternion.Euler(subject) * vector;
+        return Quaternion.Euler(yOnly) * vector;
     }
 
     // Adjust the provided angle to be within a -180 to 180.

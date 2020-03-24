@@ -1,4 +1,4 @@
-12 10 5
+12 10 4
 
  XXXXX
  X#XXX
@@ -14,23 +14,12 @@ XXXXXXX
 X     X
 X     X
 X     X
-X ^   X
+X     X
 XCCX<<X
  XXXXXXXXX
  XXXXXXXXX
  XXXXXXXXX
  XXXXXXXXX
---------------------
-
-
-
-
-
-      X
-     <X
-
-
-
 --------------------
 
 
