@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 using LockingPolicy = Thalmic.Myo.LockingPolicy;
 using Pose = Thalmic.Myo.Pose;
@@ -9,6 +7,7 @@ using VibrationType = Thalmic.Myo.VibrationType;
 
 public class MyoPose : MonoBehaviour
 {
+    // remember which poses have been used
     private bool fingersSpread;
     private bool fist;
     private bool doubleTap;

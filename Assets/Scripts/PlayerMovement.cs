@@ -1,10 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-
-using LockingPolicy = Thalmic.Myo.LockingPolicy;
-using Pose = Thalmic.Myo.Pose;
-using UnlockType = Thalmic.Myo.UnlockType;
-using VibrationType = Thalmic.Myo.VibrationType;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -54,19 +48,5 @@ public class PlayerMovement : MonoBehaviour
     {
         // add some extra downward force to the player so that it doesn't bounce around the level as much
         rb.AddForce(1, -100, 1);
-    }
-
-    // Extend the unlock if ThalmcHub's locking policy is standard, and notifies the given myo that a user action was
-    // recognized.
-    void ExtendUnlockAndNotifyUserAction(ThalmicMyo myo)
-    {
-        ThalmicHub hub = ThalmicHub.instance;
-
-        if (hub.lockingPolicy == LockingPolicy.Standard)
-        {
-            myo.Unlock(UnlockType.Timed);
-        }
-
-        myo.NotifyUserAction();
     }
 }

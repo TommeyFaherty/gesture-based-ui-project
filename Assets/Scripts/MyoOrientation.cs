@@ -1,11 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using static AngleUtils;
-
-using LockingPolicy = Thalmic.Myo.LockingPolicy;
-using Pose = Thalmic.Myo.Pose;
-using UnlockType = Thalmic.Myo.UnlockType;
-using VibrationType = Thalmic.Myo.VibrationType;
 
 // Orient the object to match that of the Myo armband.
 // Compensate for initial yaw (orientation about the gravity vector) and roll (orientation about
@@ -13,9 +7,8 @@ using VibrationType = Thalmic.Myo.VibrationType;
 // Making the fingers spread pose or pressing the 'r' key resets the reference orientation.
 public class MyoOrientation : MonoBehaviour
 {
-    // Myo game object to connect with.
-    // This object must have a ThalmicMyo script attached.
-    public GameObject myo = null;
+    // Myo to connect with.
+    private ThalmicMyo myo;
 
     // A rotation that compensates for the Myo armband's orientation parallel to the ground, i.e. yaw.
     // Once set, the direction the Myo armband is facing becomes "forward" within the program.
@@ -26,45 +19,28 @@ public class MyoOrientation : MonoBehaviour
     // Set by making the fingers spread pose or pressing "r".
     private float _referenceRoll = 0.0f;
 
-    // The pose from the last update. This is used to determine if the pose has changed
-    // so that actions are only performed upon making them rather than every frame during
-    // which they are active.
-    private Pose _lastPose = Pose.Unknown;
+    private MyoPose myoPose;
 
     private bool initialised = false;
+
+    private void Start()
+    {
+        // Access the ThalmicMyo component
+        myo = FindObjectOfType<ThalmicMyo>();
+        myoPose = FindObjectOfType<MyoPose>();
+    }
 
     // Update is called once per frame.
     public Vector3 GetMyoRotation ()
     {
-        // Access the ThalmicMyo component attached to the Myo object.
-        ThalmicMyo thalmicMyo = myo.GetComponent<ThalmicMyo> ();
-
-        // Update references when the pose becomes fingers spread or the q key is pressed.
-        bool updateReference = false;
-
-        if (!initialised && _antiYaw == Quaternion.identity && _referenceRoll == 0.0f)
+        if ((!initialised && _antiYaw == Quaternion.identity && _referenceRoll == 0.0f)
+            || myoPose.ConsumeFingersSpreadIfDetected())
         {
-            updateReference = true;
-            initialised = true;
-        }
-
-        if (thalmicMyo.pose != _lastPose) {
-            _lastPose = thalmicMyo.pose;
-
-            if (thalmicMyo.pose == Pose.FingersSpread) {
-                updateReference = true;
-
-                ExtendUnlockAndNotifyUserAction(thalmicMyo);
-            }
-        }
-        if (Input.GetKeyDown ("r")) {
-            updateReference = true;
-        }
-
-        // Update references. This anchors the joint on-screen such that it faces forward away
-        // from the viewer when the Myo armband is oriented the way it is when these references are taken.
-        if (updateReference) {
+            // Update references. This anchors the joint on-screen such that it faces forward away
+            // from the viewer when the Myo armband is oriented the way it is when these references are taken.
             UpdateReference();
+
+            initialised = true;
         }
 
         // Current zero roll vector and roll value.
@@ -87,7 +63,7 @@ public class MyoOrientation : MonoBehaviour
         // The above calculations were done assuming the Myo armbands's +x direction, in its own coordinate system,
         // was facing toward the wearer's elbow. If the Myo armband is worn with its +x direction facing the other way,
         // the rotation needs to be updated to compensate.
-        if (thalmicMyo.xDirection == Thalmic.Myo.XDirection.TowardWrist) {
+        if (myo.xDirection == Thalmic.Myo.XDirection.TowardWrist) {
             // Mirror the rotation around the XZ plane in Unity's coordinate system (XY plane in Myo's coordinate
             // system). This makes the rotation reflect the arm's orientation, rather than that of the Myo armband.
             target = new Quaternion(target.x,
@@ -155,18 +131,5 @@ public class MyoOrientation : MonoBehaviour
         Vector3 roll = Vector3.Cross (m, myo.transform.forward);
 
         return roll.normalized;
-    }
-
-    // Extend the unlock if ThalmcHub's locking policy is standard, and notifies the given myo that a user action was
-    // recognized.
-    void ExtendUnlockAndNotifyUserAction (ThalmicMyo myo)
-    {
-        ThalmicHub hub = ThalmicHub.instance;
-
-        if (hub.lockingPolicy == LockingPolicy.Standard) {
-            myo.Unlock (UnlockType.Timed);
-        }
-
-        myo.NotifyUserAction ();
     }
 }

@@ -1,18 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using static AngleUtils;
 
-public class FloorController : MonoBehaviour
+public class LevelController : MonoBehaviour
 {
     // max angle (x & z) that the level can rotate to
-    private float maxAngle = 75;
+    private readonly float maxAngle = 75;
     // level turn speed
-    private float turnSpeed = 10f;
+    private readonly float turnSpeed = 10f;
     // level slerp speed; speed at which actual angle approaches target angle
-    private float slerpSpeed = 4.0f;
+    private readonly float slerpSpeed = 3.0f;
 
-    private MyoOrientation jointOrientation;
+    // used to check the orientation of the myo armband
+    private MyoOrientation myoOrientation;
+    // reference to the camera for relative level movement
     private ThirdPersonCamera thirdPersonCamera;
 
     // most recently used key controls (set in Update and used in FixedUpdate)
@@ -23,7 +23,7 @@ public class FloorController : MonoBehaviour
 
     private void Start()
     {
-        jointOrientation = GetComponent<MyoOrientation>();
+        myoOrientation = FindObjectOfType<MyoOrientation>();
         thirdPersonCamera = FindObjectOfType<ThirdPersonCamera>();
     }
 
@@ -34,11 +34,11 @@ public class FloorController : MonoBehaviour
 
         // update myo input
         ThalmicHub hub = ThalmicHub.instance;
-        ThalmicMyo thalmicMyo = jointOrientation.myo.GetComponent<ThalmicMyo>();
+        ThalmicMyo thalmicMyo = FindObjectOfType<ThalmicMyo>();
         if (hub.hubInitialized && thalmicMyo.isPaired && thalmicMyo.armSynced)
         {
             // myo ready, use myo controls
-            lastMyoOrientation = jointOrientation.GetMyoRotation();
+            lastMyoOrientation = myoOrientation.GetMyoRotation();
             myoReady = true;
         }
         else

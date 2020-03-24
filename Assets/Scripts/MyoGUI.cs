@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 // Draw simple instructions for sample scene.
 // Check to see if a Myo armband is paired.
