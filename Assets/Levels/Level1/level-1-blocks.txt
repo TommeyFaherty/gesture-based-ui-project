@@ -17,9 +17,9 @@ X     X
 X     X
 XCCX<<X
  XXXXXXXXX
- XXXXXXXXX
- XXXXXXXXX
- XXXXXXXXX
+ XXXXXXXXX W
+ XXXXXXXXX W
+ XXXXXXXXX W
 --------------------
 
 
@@ -28,9 +28,9 @@ XCCX<<X
 
       XXXX
  XXXX X#XX
- XXXX<XX#X
- XXXXXXXXX X
- XXXXXXXXX
+ XXXX<XX#X W
+ XXXXXXXXX W
+ XXXXXXXXX W
 -------------------
 
 
@@ -39,7 +39,7 @@ XCCX<<X
 
       XXXX
  X^      X
- X^    X X 
+ X^    X X W
  X^    X   W
- XXXXXXXXX 
+ XXXXXXXXX W
 ------------------

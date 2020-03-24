@@ -17,7 +17,8 @@ public class CrackedBlock : MonoBehaviour
         Debug.Log("wait", this); 
         transform.GetComponent<Rigidbody>().useGravity = true;
         transform.GetComponent<Rigidbody>().isKinematic = false;
-        transform.GetComponent<Rigidbody>().AddForce(transform.up * thrust);
+        transform.localScale = new Vector3(transform.localScale.x * 0.95f, 1, transform.localScale.x * 0.95f);
+        transform.GetComponent<Rigidbody>().AddForce(Vector3.down * thrust);
         Debug.Log("done", this); 
     } 
 }
