@@ -9,8 +9,7 @@ using VibrationType = Thalmic.Myo.VibrationType;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
-    public float currentX = 25f;
-    public float currentY = 0.0f;
+    public Vector3 subject;
 
     private const float Y_ANGLE_MIN = 0.0f;
     private const float Y_ANGLE_MAX = 50.0f;
@@ -22,6 +21,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private float distance = 18.0f;
     private float value = 0.0f;
+    private float rotateSpeed = 90;
 
     // The pose from the last update. This is used to determine if the pose has changed
     // so that actions are only performed upon making them rather than every frame during
@@ -32,6 +32,7 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         camTransform = transform;
         cam = Camera.main;
+        subject = new Vector3();
     }
 
     private void Update()
@@ -67,25 +68,28 @@ public class ThirdPersonCamera : MonoBehaviour
             value -= 90;
             Debug.Log("T was pressed");
         }
-
+        
+        float rotateAmount = rotateSpeed * Time.deltaTime;
+        // snap to target rotation if close enough (stops camera from jittering)
+        if (Mathf.Abs(value - subject.y) <= rotateAmount)
+        {
+            subject.y = value;
+        }
         //Camera glides when rotating instead of jumping to position
-        if(currentY < value)
+        if (subject.y < value)
         {
-            currentY += 5;
+            subject.y += rotateAmount;
         }
-        else if(currentY > value)
+        else if(subject.y > value)
         {
-            currentY -= 5;
+            subject.y -= rotateAmount;
         }
-
-        //currentY = Mathf.Clamp(currentY,Y_ANGLE_MIN,Y_ANGLE_MAX);
     }
 
     private void LateUpdate() 
     {
-
-        Vector3 dir = new Vector3(0,0,-distance);
-        Quaternion rotation = Quaternion.Euler(currentX,currentY,0);
+        Vector3 dir = new Vector3(0, 0, -distance);
+        Quaternion rotation = Quaternion.Euler(subject.x, subject.y, 0);
         camTransform.position = lookAt.position + rotation * dir;
         camTransform.LookAt(lookAt.position);
     }

@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AngleUtils;
 
 public class FloorController : MonoBehaviour
 {
     // max angle (x & z) that the level can rotate to
     private float maxAngle = 75;
     // level turn speed
-    private float turnSpeed = 12f;
+    private float turnSpeed = 10f;
     // level slerp speed; speed at which actual angle approaches target angle
     private float slerpSpeed = 4.0f;
 
@@ -55,12 +56,12 @@ public class FloorController : MonoBehaviour
         if (myoReady)
         {
             // myo ready, use myo controls
-            targetRotation = RotateVectorAroundCamera(lastMyoOrientation);
+            targetRotation = RotateVectorAroundVector(lastMyoOrientation, thirdPersonCamera.subject);
         }
         else
         {
             // myo not ready, fall back to keyboard controls
-            targetRotation = currentRotation + RotateVectorAroundCamera(lastKeyOffsets);
+            targetRotation = currentRotation + RotateVectorAroundVector(lastMyoOrientation, thirdPersonCamera.subject);
         }
         
         // angle that the level will rotate towards
@@ -68,7 +69,7 @@ public class FloorController : MonoBehaviour
         // rotate (slerp) towards target x/z angle
         transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, targetQuat, Time.deltaTime * slerpSpeed);
         // limit rotation to maxAngle
-        transform.rotation = Quaternion.Euler(LimitRotation(transform.rotation.eulerAngles));
+        transform.rotation = Quaternion.Euler(LimitRotation(transform.rotation.eulerAngles, maxAngle));
     }
 
     // get keyboard control angle offsets
@@ -107,51 +108,5 @@ public class FloorController : MonoBehaviour
         }
 
         return new Vector3(xOff, yOff, zOff);
-    }
-
-    // limit rotation on the x and z axis
-    private Vector3 LimitRotation(Vector3 vector)
-    {
-        // normalize angles
-        float nx = normalizeAngle(vector.x);
-        float ny = normalizeAngle(vector.y);
-        float nz = normalizeAngle(vector.z);
-
-        // x and z rotation hypotenuse (basically the total rotation between the two)
-        float mag = Mathf.Sqrt(Mathf.Pow(nx, 2) + Mathf.Pow(nz, 2));
-        if (mag > maxAngle)
-        {
-            // target rotation greater than limit; limit rotation
-            // angle between x and z
-            float angle = Mathf.Atan2(nz, nx);
-            // compute limited x and z angles
-            return new Vector3(Mathf.Cos(angle) * maxAngle, vector.y, Mathf.Sin(angle) * maxAngle);
-        }
-        else
-        {
-            // no limitation needed
-            return vector;
-        }
-    }
-
-    private Vector3 RotateVectorAroundCamera(Vector3 angle)
-    {
-        // rotate the rotation control by the camera angle
-        // (in other words, make sure left is always left and right is always right from the player's perspective)
-        return Quaternion.Euler(thirdPersonCamera.currentX, thirdPersonCamera.currentY, 0) * angle;
-    }
-
-    // Adjust the provided angle to be within a -180 to 180.
-    float normalizeAngle(float angle)
-    {
-        if (angle > 180.0f)
-        {
-            return angle - 360.0f;
-        }
-        if (angle < -180.0f)
-        {
-            return angle + 360.0f;
-        }
-        return angle;
     }
 }

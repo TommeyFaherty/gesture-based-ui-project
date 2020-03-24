@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using static AngleUtils;
 
 using LockingPolicy = Thalmic.Myo.LockingPolicy;
 using Pose = Thalmic.Myo.Pose;
@@ -154,18 +155,6 @@ public class MyoOrientation : MonoBehaviour
         Vector3 roll = Vector3.Cross (m, myo.transform.forward);
 
         return roll.normalized;
-    }
-
-    // Adjust the provided angle to be within a -180 to 180.
-    float normalizeAngle (float angle)
-    {
-        if (angle > 180.0f) {
-            return angle - 360.0f;
-        }
-        if (angle < -180.0f) {
-            return angle + 360.0f;
-        }
-        return angle;
     }
 
     // Extend the unlock if ThalmcHub's locking policy is standard, and notifies the given myo that a user action was
