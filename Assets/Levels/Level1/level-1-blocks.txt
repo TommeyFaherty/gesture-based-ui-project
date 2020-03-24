@@ -16,10 +16,10 @@ X     X
 X     X
 X     X
 XCCX<<X
- XXXXXXXXX
- XXXXXXXXX W
- XXXXXXXXX W
- XXXXXXXXX W
+     X
+           W
+           W
+           W
 --------------------
 
 
