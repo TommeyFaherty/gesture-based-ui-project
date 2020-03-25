@@ -1,0 +1,36 @@
+10 11 3         
+XXXXXX XXX
+XXXXXX XXX
+       XXX
+       XXX 
+   XXX 
+   XXX
+   XXX
+   XXX
+   XXX
+   
+
+--------------------
+     <
+     <
+
+XX     CCC
+XXX  ^#XXX
+XXX	 ^#XXX
+XXX	 ^ XXX
+XXX	 <X
+  X^^^X
+  XX#XX
+--------------------
+
+
+
+W
+CC
+ 
+       
+       ^^^
+ 
+ 
+ 
+--------------------
