@@ -13,7 +13,9 @@ public class ThirdPersonCamera : MonoBehaviour
     private Camera cam;
 
     private float distance = 18.0f;
-    private float value = 0.0f;
+    //Starting value set so camera spawns at most convenient
+    //location for player to view the level
+    private float value = 180.0f;
     private float rotateSpeed = 120;
 
     private MyoPose myoPose;
@@ -22,7 +24,7 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         camTransform = transform;
         cam = Camera.main;
-        subject = new Vector3(25, 0, 0);
+        subject = new Vector3(25, value, 0);
         myoPose = FindObjectOfType<MyoPose>();
     }
 
