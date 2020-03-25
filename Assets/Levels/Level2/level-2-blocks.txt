@@ -1,12 +1,52 @@
-10 10 1
-XXXXXXXXXX
-XXXXXXXXXX
-XXXXXXXXXX
-XXXXXXXXXX
-XXXXXXXXXX
-XXXXXXXXXX
-XXXXXXXXXX
-XXXXXXXXXX
-XXXXXXXXXX
-XXXXXXXXXX
+10 10 5
+
+X###XXXXX
+
+
+
+
+
+
+
+
+--------------------
+
+    <^XXX
+XXXXXXXXX
+       XX
+        X
+	 
+	
+
+
+
+--------------------
+
+
+
+
+        <
+        X
+    XXXXX
+   XXXXXX
+   XXXXXX
+    XXXXX
+--------------------
+
+
+
+
+
+  X
+ XXXC
+ XX^C
+ XX^C
+ XXXC
+--------------------
+ 
+
+
+  W
+  X
+  <
 --------------------
