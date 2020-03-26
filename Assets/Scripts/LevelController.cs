@@ -4,11 +4,11 @@ using static AngleUtils;
 public class LevelController : MonoBehaviour
 {
     // max angle (x & z) that the level can rotate to
-    private readonly float maxAngle = 75;
+    private readonly float maxAngle = 80;
     // level turn speed
-    private readonly float turnSpeed = 10f;
+    private readonly float turnSpeed = 1.0f;
     // level slerp speed; speed at which actual angle approaches target angle
-    private readonly float slerpSpeed = 3.0f;
+    private readonly float slerpSpeed = 0.1f;
 
     // used to check the orientation of the myo armband
     private MyoOrientation myoOrientation;
@@ -17,6 +17,7 @@ public class LevelController : MonoBehaviour
 
     // most recently used key controls (set in Update and used in FixedUpdate)
     private Vector3 lastKeyOffsets;
+    private Vector3 keyTargetRot;
     // most recent myo orientation
     private Vector3 lastMyoOrientation = new Vector3();
     private bool myoReady = false;
@@ -25,6 +26,7 @@ public class LevelController : MonoBehaviour
     {
         myoOrientation = FindObjectOfType<MyoOrientation>();
         thirdPersonCamera = FindObjectOfType<ThirdPersonCamera>();
+        keyTargetRot = transform.rotation.eulerAngles;
     }
 
     private void Update()
@@ -61,13 +63,16 @@ public class LevelController : MonoBehaviour
         else
         {
             // myo not ready, fall back to keyboard controls
-            targetRotation = currentRotation + RotateVectorAroundVector(GetKeyOffsets(), thirdPersonCamera.subject);
+            keyTargetRot += RotateVectorAroundVector(GetKeyOffsets(), thirdPersonCamera.subject);
+            keyTargetRot = LimitRotation(keyTargetRot, maxAngle);
+
+            targetRotation = keyTargetRot;
         }
         
         // angle that the level will rotate towards
         Quaternion targetQuat = Quaternion.Euler(targetRotation);
         // rotate (slerp) towards target x/z angle
-        transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, targetQuat, Time.deltaTime * slerpSpeed);
+        transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, targetQuat, slerpSpeed);
         // limit rotation to maxAngle
         transform.rotation = Quaternion.Euler(LimitRotation(transform.rotation.eulerAngles, maxAngle));
     }
@@ -82,31 +87,31 @@ public class LevelController : MonoBehaviour
         //Keys to rotate floor - similar to wasd but using ijkl instead
         if (Input.GetKey(KeyCode.I))
         {
-            xOff += turnSpeed;
+            xOff += 1;
         }
         if (Input.GetKey(KeyCode.K))
         {
-            xOff -= turnSpeed;
+            xOff -= 1;
         }
         if (Input.GetKey(KeyCode.J))
         {
-            zOff += turnSpeed;
+            zOff += 1;
         }
         if (Input.GetKey(KeyCode.L))
         {
-            zOff -= turnSpeed;
+            zOff -= 1;
         }
 
         //O and U always same regardless of camera angle
         if (Input.GetKey(KeyCode.U))
         {
-            yOff += turnSpeed;
+            yOff += 1;
         }
         if (Input.GetKey(KeyCode.O))
         {
-            yOff -= turnSpeed;
+            yOff -= 1;
         }
 
-        return new Vector3(xOff, yOff, zOff);
+        return new Vector3(xOff, yOff, zOff).normalized * turnSpeed;
     }
 }

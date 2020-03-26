@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        transform.localScale = transform.localScale;
+
         //Jump with ball if its on the ground
         if ((Input.GetKeyDown(KeyCode.Space) || myoPose.ConsumeFistIfDetected()) && IsGrounded()) {
             Vector3 jumpVelocity = new Vector3(0f,jumpForce,0f);
@@ -47,6 +49,6 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         // add some extra downward force to the player so that it doesn't bounce around the level as much
-        rb.AddForce(1, -100, 1);
+        rb.AddForce(1, -50, 1);
     }
 }

@@ -49,7 +49,7 @@ public class LevelBuilder : MonoBehaviour
                         r = (int) char.GetNumericValue(rotationsLine[w]);
                     }
                     // instantiate block in the world
-                    GenerateBlock(b, w * 2, h * 2, -l * 2, r);
+                    GenerateBlock(b, w * 2, h, -l * 2, r);
                 }
             }
 
