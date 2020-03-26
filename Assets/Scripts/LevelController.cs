@@ -4,11 +4,11 @@ using static AngleUtils;
 public class LevelController : MonoBehaviour
 {
     // max angle (x & z) that the level can rotate to
-    private readonly float maxAngle = 75;
+    private readonly float maxAngle = 80;
     // level turn speed
-    private readonly float turnSpeed = 10f;
+    private readonly float turnSpeed = 15f;
     // level slerp speed; speed at which actual angle approaches target angle
-    private readonly float slerpSpeed = 3.0f;
+    private readonly float slerpSpeed = 6.0f;
 
     // used to check the orientation of the myo armband
     private MyoOrientation myoOrientation;

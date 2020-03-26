@@ -47,6 +47,6 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         // add some extra downward force to the player so that it doesn't bounce around the level as much
-        rb.AddForce(1, -100, 1);
+        rb.AddForce(1, -75, 1);
     }
 }

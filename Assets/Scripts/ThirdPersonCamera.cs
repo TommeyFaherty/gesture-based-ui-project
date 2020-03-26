@@ -16,7 +16,7 @@ public class ThirdPersonCamera : MonoBehaviour
     //Starting value set so camera spawns at most convenient
     //location for player to view the level
     private float value = 180.0f;
-    private float rotateSpeed = 120;
+    private float rotateSpeed = 250;
 
     private MyoPose myoPose;
 
