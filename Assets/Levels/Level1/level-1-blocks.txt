@@ -1,9 +1,9 @@
 12 10 4
 
  XXXXX
- X#XXX
  XXXXX
  XXXXX
+ XXX#X
  XXXXX
  
  
@@ -15,8 +15,8 @@ X     X
 X     X
 X     X
 X     X
-XCCX<<X
-     X
+X<<XCCX
+ XXX   
            W
            W
            W
@@ -27,10 +27,10 @@ XCCX<<X
 
 
       XXXX
- XXXX X#XX
- XXXX<XX#X W
- XXXXXXXXX W
- XXXXXXXXX W
+X ^XXXX#XX
+X<XXXXXX#X W
+XXXXXXXXXX W
+XXXXXXXXXX W
 -------------------
 
 
@@ -38,8 +38,8 @@ XCCX<<X
 
 
       XXXX
- X^      X
- X^    X X W
- X^    X   W
- XXXXXXXXX W
+X       X
+X     X X W
+X    ^X   W
+XXXXXXXXXX W
 ------------------

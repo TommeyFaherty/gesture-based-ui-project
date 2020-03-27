@@ -1,11 +1,11 @@
-10 11 3         
+10 11 6         
 XXXXXX XXX
 XXXXXX XXX
        XXX
        XXX 
    XXX 
    XXX
-   XXX
+   XXX#
    XXX
    XXX
    
@@ -14,22 +14,58 @@ XXXXXX XXX
      <
      <
 
-XX     CCC
+XXXXXXXCCC
 XXX  ^#XXX
 XXX	 ^#XXX
-XXX	 ^ XXX
+XXX	   XXX
 XXX	 <X
-  X^^^X
-  XX#XX
+ X ^^^X
+ XXX#XX
+--------------------
+
+
+
+   
+CCXXXXX
+  X
+  X   
+  X    ^^^
+  X
+ 
+ 
+--------------------
+
+
+
+
+  XXXXX
+  X 
+  X     
+  X     
+  X
+ 
+ 
+--------------------
+
+
+
+
+    ^^^
+ 
+       
+       
+ 
+ 
+ 
 --------------------
 
 
 
 W
-CC
+
  
        
-       ^^^
+       
  
  
  
