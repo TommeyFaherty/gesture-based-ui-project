@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -43,6 +44,12 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity *= dashForce;
 
             cooldown = 6f;
+        }
+
+        //Restart level if ball is falling of the map
+        if(rb.position.y <= -10f)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
