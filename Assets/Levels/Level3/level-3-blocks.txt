@@ -19,7 +19,7 @@ XXX  ^#XXX
 XXX	 ^#XXX
 XXX	   XXX
 XXX	 <X
- X ^^^X
+ X ^^<X
  XXX#XX
 --------------------
 
@@ -29,15 +29,15 @@ XXX	 <X
 CCXXXXX
   X
   X   
-  X    ^^^
-  X
+  X     ^^
+  X    X
  
  
 --------------------
 
 
 
-
+XX
   XXXXX
   X 
   X     
@@ -48,8 +48,8 @@ CCXXXXX
 --------------------
 
 
-
-
+XX
+WWX
     ^^^
  
        
@@ -61,7 +61,7 @@ CCXXXXX
 
 
 
-W
+
 
  
        

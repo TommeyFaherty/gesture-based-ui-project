@@ -14,7 +14,7 @@ X###XXXXX
     <^XXX
 XXXXXXXXX
        XX
-        X
+       XX
 	 
 	
 
@@ -22,11 +22,11 @@ XXXXXXXXX
 
 --------------------
 
+         X
 
 
-
-        <
-        X
+        <X
+        XX
     XXXXX
    XXXXXX
    XXXXXX
