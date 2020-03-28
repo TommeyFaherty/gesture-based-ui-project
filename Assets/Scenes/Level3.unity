@@ -231,6 +231,12 @@ PrefabInstance:
       propertyPath: levelRotationsPath
       value: Level3/level-3-rotations.txt
       objectReference: {fileID: 0}
+    - target: {fileID: 599327663451854534, guid: 017139f4c4f3ffc4f9b8902e7529f15e,
+        type: 3}
+      propertyPath: blockMappings.Array.data[5].block
+      value: 
+      objectReference: {fileID: 1595247881872963051, guid: 3e41f9361df8f0a4f93de8bf160ef781,
+        type: 3}
     - target: {fileID: 599327664775039377, guid: 017139f4c4f3ffc4f9b8902e7529f15e,
         type: 3}
       propertyPath: m_LocalPosition.x
