@@ -65,14 +65,14 @@ public class MyoOrientation : MonoBehaviour
         // The above calculations were done assuming the Myo armbands's +x direction, in its own coordinate system,
         // was facing toward the wearer's elbow. If the Myo armband is worn with its +x direction facing the other way,
         // the rotation needs to be updated to compensate.
-        //if (myo.xDirection == Thalmic.Myo.XDirection.TowardWrist) {
+        if (myo.xDirection == Thalmic.Myo.XDirection.TowardWrist) {
             // Mirror the rotation around the XZ plane in Unity's coordinate system (XY plane in Myo's coordinate
             // system). This makes the rotation reflect the arm's orientation, rather than that of the Myo armband.
             target = new Quaternion(target.x,
                                     -target.y,
                                     target.z,
                                     -target.w);
-        //}
+        }
 
         // use axis that make sense for our game (eg. ignoring z axis, roll is too confusing)
         return new Vector3(
