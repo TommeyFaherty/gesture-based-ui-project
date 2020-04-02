@@ -23,5 +23,7 @@ public class CrackedBlock : MonoBehaviour
         transform.localScale = new Vector3(transform.localScale.x * 0.95f, transform.localScale.x * 0.95f, 1);
         transform.GetComponent<Rigidbody>().AddForce(Vector3.down * thrust);
         Debug.Log("done", this); 
+
+        FindObjectOfType<AudioManager>().Play("FallingFloor");
     } 
 }
