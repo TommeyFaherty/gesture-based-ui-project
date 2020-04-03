@@ -454,7 +454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myo: {fileID: 807191292}
---- !u!1 &1118880748
+--- !u!1 &1298011490
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -462,8 +462,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1118880750}
-  - component: {fileID: 1118880749}
+  - component: {fileID: 1298011492}
+  - component: {fileID: 1298011491}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -471,13 +471,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1118880749
+--- !u!114 &1298011491
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118880748}
+  m_GameObject: {fileID: 1298011490}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 345400edfe333554087d74eebe691479, type: 3}
@@ -490,13 +490,49 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
---- !u!4 &1118880750
+  - name: Dash
+    clip: {fileID: 8300000, guid: 2b8394d0402e7fa41af6f438bb3219d3, type: 3}
+    volume: 0.687
+    pitch: 1.5
+    loop: 0
+    source: {fileID: 0}
+  - name: Jump
+    clip: {fileID: 8300000, guid: afb62deac289eb541a20e4540ce271c6, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Rotate1
+    clip: {fileID: 8300000, guid: 44586bc8548e7294dab31dde0d6ecea0, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Rotate2
+    clip: {fileID: 8300000, guid: 32028856809990c498593fc2a47d75cf, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Rotate3
+    clip: {fileID: 8300000, guid: 026dd11707239f74dafac4b34538e018, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Rotate4
+    clip: {fileID: 8300000, guid: dc8b176892b5ad64395dc04e21618864, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+--- !u!4 &1298011492
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118880748}
+  m_GameObject: {fileID: 1298011490}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}

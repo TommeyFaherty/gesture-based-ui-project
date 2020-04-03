@@ -365,6 +365,42 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: Dash
+    clip: {fileID: 8300000, guid: 2b8394d0402e7fa41af6f438bb3219d3, type: 3}
+    volume: 0.687
+    pitch: 1.5
+    loop: 0
+    source: {fileID: 0}
+  - name: Jump
+    clip: {fileID: 8300000, guid: afb62deac289eb541a20e4540ce271c6, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Rotate1
+    clip: {fileID: 8300000, guid: 44586bc8548e7294dab31dde0d6ecea0, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Rotate2
+    clip: {fileID: 8300000, guid: 32028856809990c498593fc2a47d75cf, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Rotate3
+    clip: {fileID: 8300000, guid: 026dd11707239f74dafac4b34538e018, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Rotate4
+    clip: {fileID: 8300000, guid: dc8b176892b5ad64395dc04e21618864, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!4 &1508085855
 Transform:
   m_ObjectHideFlags: 0

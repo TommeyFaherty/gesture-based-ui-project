@@ -17,7 +17,7 @@ public class ThirdPersonCamera : MonoBehaviour
     //location for player to view the level
     private float value = 180.0f;
     private float rotateSpeed = 250;
-
+    public System.Random rnd = new System.Random();
     private MyoPose myoPose;
 
     private void Start()
@@ -30,15 +30,19 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void Update()
     {
+        int concreteAudio = rnd.Next(1,4);
+
         //if R is pressed rotate camera 90 degrees clockwise
         if (Input.GetKeyDown(KeyCode.R) || myoPose.ConsumeWaveInIfDetected())
         {
             value += 90;
+            FindObjectOfType<AudioManager>().Play("Rotate"+concreteAudio.ToString());
         }
         //T anti-clockwise
         if (Input.GetKeyDown(KeyCode.T) || myoPose.ConsumeWaveOutIfDetected())
         {
             value -= 90;
+            FindObjectOfType<AudioManager>().Play("Rotate"+concreteAudio.ToString());
         }
         
         float rotateAmount = rotateSpeed * Time.deltaTime;

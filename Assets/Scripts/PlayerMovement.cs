@@ -40,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
             
             //Ensures ball maintains speed
             rb.velocity = rb.velocity + jumpVelocity; 
+
+            FindObjectOfType<AudioManager>().Play("Jump");
         }
 
         //Dash with ball
@@ -51,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity *= dashForce;
 
             cooldown = 6f;
+
+            FindObjectOfType<AudioManager>().Play("Dash");
         }
 
         //Restart level if ball is falling of the map
