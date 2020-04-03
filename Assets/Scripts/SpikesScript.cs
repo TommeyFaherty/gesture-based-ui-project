@@ -9,6 +9,7 @@ public class SpikesScript : MonoBehaviour
         {
             // restart level
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            FindObjectOfType<AudioManager>().Play("Spike");
         }
     }
 }

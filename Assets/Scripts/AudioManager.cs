@@ -21,10 +21,13 @@ public class AudioManager : MonoBehaviour
 
     public void Play(string name)
     {
+        //Get sound by its name
         Sound s = Array.Find(sounds, sound => sound.name == name);
+        
+        //If sound clip cannot be found return warning message
         if (s == null)
         {
-            Debug.LogWarning("Sound " + name + " not be found");
+            Debug.LogWarning("Sound " + name + " not found");
             return;
         }
             
@@ -36,7 +39,7 @@ public class AudioManager : MonoBehaviour
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
         {
-            Debug.LogWarning("Sound " + name + " not be found");
+            Debug.LogWarning("Sound " + name + " not found");
             return s;
         }
         return s;
