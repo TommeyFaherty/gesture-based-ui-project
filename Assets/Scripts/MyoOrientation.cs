@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using static AngleUtils;
 
-// -- Taken and modified from Myo sample --
+// -- Taken from Myo sample and modified --
 
 // Orient the object to match that of the Myo armband.
 // Compensate for initial yaw (orientation about the gravity vector) and roll (orientation about
 // the wearer's arm) by allowing the user to set a reference orientation.
-// Making the fingers spread pose or pressing the 'r' key resets the reference orientation.
+// Making the fingers spread pose resets the reference orientation.
 public class MyoOrientation : MonoBehaviour
 {
     // Myo to connect with.
@@ -14,15 +14,14 @@ public class MyoOrientation : MonoBehaviour
 
     // A rotation that compensates for the Myo armband's orientation parallel to the ground, i.e. yaw.
     // Once set, the direction the Myo armband is facing becomes "forward" within the program.
-    // Set by making the fingers spread pose or pressing "r".
+    // Set by making the fingers spread pose
     private Quaternion _antiYaw = Quaternion.identity;
 
     // A reference angle representing how the armband is rotated about the wearer's arm, i.e. roll.
-    // Set by making the fingers spread pose or pressing "r".
+    // Set by making the fingers spread pose
     private float _referenceRoll = 0.0f;
 
     private MyoPose myoPose;
-
     private bool initialised = false;
 
     private void Start()
@@ -62,21 +61,9 @@ public class MyoOrientation : MonoBehaviour
         Vector3 targetEuler = target.eulerAngles;
         target = Quaternion.Euler(targetEuler.x, targetEuler.y, targetEuler.z);
 
-        // The above calculations were done assuming the Myo armbands's +x direction, in its own coordinate system,
-        // was facing toward the wearer's elbow. If the Myo armband is worn with its +x direction facing the other way,
-        // the rotation needs to be updated to compensate.
-        if (myo.xDirection == Thalmic.Myo.XDirection.TowardWrist) {
-            // Mirror the rotation around the XZ plane in Unity's coordinate system (XY plane in Myo's coordinate
-            // system). This makes the rotation reflect the arm's orientation, rather than that of the Myo armband.
-            target = new Quaternion(target.x,
-                                    -target.y,
-                                    target.z,
-                                    -target.w);
-        }
-
         // use axis that make sense for our game (eg. ignoring z axis, roll is too confusing)
         return new Vector3(
-            normalizeAngle(target.eulerAngles.x),
+            -normalizeAngle(target.eulerAngles.x),
             0,
             -normalizeAngle(target.eulerAngles.y)
         );

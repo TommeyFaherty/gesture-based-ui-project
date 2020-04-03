@@ -17,6 +17,7 @@ public class LevelController : MonoBehaviour
 
     // most recently used key controls (set in Update and used in FixedUpdate)
     private Vector3 lastKeyOffsets;
+    // target rotation for keyboard controlled movement
     private Vector3 keyTargetRot;
     // most recent myo orientation
     private Vector3 lastMyoOrientation = new Vector3();
