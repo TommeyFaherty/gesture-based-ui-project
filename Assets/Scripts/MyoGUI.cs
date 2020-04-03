@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-// -- Taken from Myo sample --
+// -- Taken from Myo sample and modified --
 
 // Draw simple instructions for sample scene.
 // Check to see if a Myo armband is paired.
@@ -35,11 +35,11 @@ public class MyoGUI : MonoBehaviour
             );
         } else {
             GUI.Label (new Rect (12, 8, Screen.width, Screen.height),
-                "Fist: Vibrate Myo armband\n" +
-                "Wave in: Set box material to blue\n" +
-                "Wave out: Set box material to green\n" +
-                "Double tap: Reset box material\n" +
-                "Fingers spread: Set forward direction"
+                "Fist: Jump\n" +
+                "Wave in: Rotate camera left\n" +
+                "Wave out: Rotate camera right\n" +
+                "Double tap: Dash\n" +
+                "Fingers spread: Set reference orientation"
             );
         }
     }

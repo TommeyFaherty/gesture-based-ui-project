@@ -7,7 +7,7 @@ public class SpikesScript : MonoBehaviour
     {
         if(collider.tag == "Player")
         {
-            //restart level
+            // restart level
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
