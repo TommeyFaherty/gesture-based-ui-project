@@ -21,8 +21,9 @@ public class LevelBuilder : MonoBehaviour
     void BuildLevel()
     {
         // open layout files
-        StreamReader blocksReader = new StreamReader("Assets/Levels/" + levelBlocksPath);
-        StreamReader rotationsReader = new StreamReader("Assets/Levels/" + levelRotationsPath);
+        string levelDataRoot = Application.dataPath + "/Levels/";
+        StreamReader blocksReader = new StreamReader(levelDataRoot + levelBlocksPath);
+        StreamReader rotationsReader = new StreamReader(levelDataRoot + levelRotationsPath);
         // read width/length/height
         string[] dims = blocksReader.ReadLine().Split();
         rotationsReader.ReadLine();
