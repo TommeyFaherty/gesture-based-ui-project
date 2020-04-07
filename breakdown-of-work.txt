@@ -1,0 +1,72 @@
+
+Initial level/camera/ball scene with keyboard controls for rotating level and camera
+-> Tommey
+
+Camera controls change based on player's perspective
+(had to be changed later for Myo controls)
+-> Tommey
+
+Jump and dash player abilities
+-> Tommey
+
+Simple Blender models for the different blocks, block materials, player outline shader
+(we didn't write the shader)
+-> Ronan
+
+Level builder script
+-> Ronan
+
+Level finish block script
+-> Ronan
+
+Spikes and cracked/falling block scripts
+-> Tommey
+
+Main menu, including level select screen
+-> Tommey
+
+Tutorial screen for main menu
+-> Ronan
+
+Level 1 design
+-> Tommey and Ronan
+
+Level 1 block placement
+-> Ronan
+
+Level 2 & 3 design, and block placement
+-> Tommey
+
+Myo integration, including activating game actions using poses, and level rotation using the gyro
+(reworked from the Thalmic Labs "cube on a stick" asset package sample)
+-> Ronan
+
+Level restart on falling out of the map
+-> Tommey
+
+You Win scene
+-> Ronan
+
+Sound effects and music (made using Audacity and FL Studio, respectively)
+-> Tommey
+
+Addition of various sound effects and menu music to the game using an AudioManager script etc
+-> Tommey
+
+Various other tweaks and improvements made to the game throughout development
+-> Tommey and Ronan
+
+Demo video: gameplay
+-> Ronan
+
+Demo video: voice-over script and narration
+-> Tommey
+
+Documentation: sections 1 & 2
+-> Tommey
+
+Documentation: sections 3 & 4
+-> Ronan
+
+Documentation: section 5
+-> Tommey and Ronan
